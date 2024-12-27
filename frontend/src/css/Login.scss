@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Agu+Display&family=Cookie&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Agu+Display&family=Cookie&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 $primary-color: #3498db;
 $secondary-color: #2ecc71;
 $background-color: #f4f4f4;
@@ -16,99 +17,123 @@ $border-radius: 5px;
         display: flex;
         justify-content:center;
         align-items: center;
-    }
-    .login{
-        height: 70vh;
-        width: 430px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(255, 255, 255, 0.637);
-        line-height: 40px;
-        border-radius: 10px;
-        text-align: center;
-        backdrop-filter: blur(10px);
-    }
-    h2{
-        font-size: 60px;
-        font-family: "Poppins", serif;
-        font-weight: 400;
-        font-style: normal;
-        margin-bottom: 10px;
-    }
-    .input-group {
-        margin-bottom: 20px;
-        display: flex;
-        flex-direction: column;
-      
-        label {
-          margin-bottom: 5px;
-          font-weight: bold;
-          color: $text-color;
+        
+        .login{
+            height: 70vh;
+            width: 430px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.637);
+            line-height: 20px;
+            border-radius: 10px 0px 0px 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
         }
-      
-        input {
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: $border-radius;
-          font-size: 16px;
-          transition: border-color 0.3s;
-      
-          &:focus {
-            border-color: $primary-color;
-            outline: none;
-          }
+        h1{
+          margin-bottom: 20px;
+          font-size: 70px;
+          font-family: "Cookie", serif;
+          font-weight: 400;
+          font-style: normal;
         }
-      }
-      
-      .login-btn {
-        background-color: $primary-color;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: $border-radius;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      
-        &:hover {
-          background-color: darken($primary-color, 10%);
+        h2{
+            font-size: 20px;
+            font-family: "Poppins", serif;
+            font-weight: 400;
+            font-style: normal;
+            margin-bottom: 30px;
         }
-      }
-      
-      .forgot-password {
-        margin-top: 10px;
-        text-align: center;
-      
-        a {
-          color: $primary-color;
-          text-decoration: none;
-          transition: color 0.3s;
-      
-          &:hover {
-            color: darken($primary-color, 10%);
-          }
-        }
-      }
-      
-      .signup {
-        text-align: center;
-        margin-top: 20px;
-      
-        p {
-          color: $text-color;
-      
-          a {
-            color: $secondary-color;
-            text-decoration: none;
-            transition: color 0.3s;
-      
-            &:hover {
-              color: darken($secondary-color, 10%);
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+          
+            label {
+              margin-bottom: 5px;
+              color: $text-color;
+              font-family: "Poppins", serif;
+            }
+          
+            input {
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: $border-radius;
+              font-size: 16px;
+              transition: border-color 0.3s;
+              border-radius: 30px;
+          
+              &:focus {
+                border-color: $primary-color;
+                outline: none;
+              }
             }
           }
-        }
-      }
+          
+          .login-btn {
+            background-color: $primary-color;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: $border-radius;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+          
+            &:hover {
+              background-color: darken($primary-color, 10%);
+            }
+          }
+          
+          .forgot-password {
+            margin-top: 10px;
+            text-align: center;
+          
+            a {
+              color: $primary-color;
+              text-decoration: none;
+              transition: color 0.3s;
+          
+              &:hover {
+                color: darken($primary-color, 10%);
+              }
+            }
+          }
+          
+          .signup {
+            text-align: center;
+            margin-top: 20px;
+          
+            p {
+              color: $text-color;
+          
+              a {
+                color: $secondary-color;
+                text-decoration: none;
+                transition: color 0.3s;
+          
+                &:hover {
+                  color: darken($secondary-color, 10%);
+                }
+              }
+            }
+          }
+          .logimg{
+            width: 470px;
+            background-color: white;
+            height: 70vh;
+            border-radius: 0px 10px 10px 0px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+          }
+          .logimg img{
+            width: 100%;
+            object-fit: cover;
+            height: 100%;
+            border-radius: 0px 10px 10px 0px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+          }
+    }
       
 }

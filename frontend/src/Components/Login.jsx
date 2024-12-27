@@ -6,6 +6,8 @@ function Login() {
         <>
         <div className="main2">
             <div className="login">
+          
+              <h1>essentia'</h1>
                 <h2>Login</h2>
         <form >
           <div className="input-group">
@@ -46,10 +48,13 @@ function Login() {
 
           <div className="signup">
             <p>
-              Don't have an account? <a href="#">Sign Up</a>
+              Don't have an account? <a href="/signup">Sign Up</a>
             </p>
           </div>
         </form>
+            </div>
+            <div className="logimg">
+              <img src="log3.png" alt="" />
             </div>
         </div>
         </>
