@@ -1,7 +1,31 @@
 import React,{useState} from "react";
 import { useNavigate } from "react-router-dom";
 import '../css/Login.scss'
-function Login() {
+const Login=()=> {
+  const navigate=useNavigate();
+  const [loginDetails,setDetails]=useState({
+    email:"",
+    password:""
+  });
+  const handleSubmit =async (e) => {
+    e.preventDefault();
+    try {
+      const {status,data}=await axios.post(`${route()}signin`,loginDetails,{Headers:{"Content-Type":"application/json"}});
+    if(status===200){
+      localStorage.setItem("Auth",data.token)
+      alert(data.msg)
+      navigate('/')
+    }
+    else{
+      alert(data.msg)
+    }
+    } catch (error) {
+      alert("error occured")
+    }
+  };
+  const handleChange=(e)=>{
+    setDetails((pre)=>({...pre,[e.target.name]:e.target.value}))
+  }
     return(
         <>
         <div className="main2">
@@ -9,15 +33,14 @@ function Login() {
           
               <h1>essentia'</h1>
                 <h2>Login</h2>
-        <form >
+        <form onSubmit={handleSubmit} >
           <div className="input-group">
             <label htmlFor="email">Email </label>
             <input
               type="email"
               id="email"
               name="email"
-              value=""
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChange}
               required
               placeholder="Enter your email"
             />
@@ -29,8 +52,7 @@ function Login() {
               type="password"
               id="password"
               name="password"
-              value=""
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleChange}
               required
               placeholder="Enter your password"
             />

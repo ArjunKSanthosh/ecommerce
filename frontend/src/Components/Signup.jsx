@@ -1,29 +1,40 @@
 import React, { useState } from "react";
+import {Link,useNavigate} from 'react-router-dom';
 import "../css/Signup.scss";  // Import SCSS for styling
 
 const Signup = () => {
-//   const [formData, setFormData] = useState({
-//     username: "",
-//     password: "",
-//     confirmPassword: "",
-//     userType: "buyer",
-//   });
+const navigate=useNavigate()
+const email=localStorage.getItem('email')
+const [user, setUser] = useState({
+  email:email,
+  username:"",
+  password:"",
+  cpassword:"",
+  role:""
+});
+const handleChange=(e)=>{
+  setUser((pre)=>({...pre,[e.target.name]:e.target.value}))
+}
+const handleSubmit=async(e)=>{
+  e.preventDefault();
+  try{
+  const {data,status}=await axios.post(`${route()}signup`,user,{headers:{"Content-Type":"application/json"}});
+  console.log("res");
+  if(status==201){
+    localStorage.removeItem('email');
+    alert(data.msg)
+    navigate('/login')
+  }
+  else{
+    alert(data.msg)
+  }
+  }
+catch(error){
+  alert("error occured")
+}
+}
 
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       [name]: value,
-//     }));
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     // Handle form submission logic here (e.g., send data to an API)
-//     console.log(formData);
-//   };
-
-  return (
+return (
     <div className="container2">
       {/* Left Section with Image */}
       <div className="image-container">
@@ -33,16 +44,16 @@ const Signup = () => {
       {/* Right Section with Form */}
       <div className="form-container">
         <h2>Sign Up</h2>
-        <form >
+        <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="username">Username</label>
             <input
               type="text"
               id="username"
               name="username"
-            //   value={formData.username}
-            //   onChange={handleChange}
-              required
+              value={user.username}
+              onChange={handleChange}
+              className={error ?'error': ''}
             />
           </div>
 
@@ -52,9 +63,9 @@ const Signup = () => {
               type="password"
               id="password"
               name="password"
-            //   value={formData.password}
-            //   onChange={handleChange}
-              required
+              value={user.password}
+              onChange={handleChange}
+              className={error ?'error': ''}
             />
           </div>
 
@@ -62,27 +73,30 @@ const Signup = () => {
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-            //   value={formData.confirmPassword}
-            //   onChange={handleChange}
-              required
+              id="cpassword"
+              name="cpassword"
+              value={user.confirmPassword}
+              onChange={handleChange}
+              className={error ?'error': ''}
+
             />
           </div>
 
           <div className="input-group">
-            <label htmlFor="userType">Select User Type</label>
+            <label htmlFor="role">Select Role</label>
             <select
-              id="userType"
-              name="userType"
-            //   value={formData.userType}
-            //   onChange={handleChange}
-              required
+              id="role"
+              name="role"
+              value={user.role}
+              onChange={handleChange}
+              className={error ?'error': ''}
             >
               <option value="buyer">Buyer</option>
               <option value="seller">Seller</option>
             </select>
           </div>
+          {error && <div className="error-message">{error}</div>}
+
 
           <button type="submit">Sign Up</button>
         </form>
@@ -90,5 +104,6 @@ const Signup = () => {
     </div>
   );
 };
+
 
 export default Signup;
