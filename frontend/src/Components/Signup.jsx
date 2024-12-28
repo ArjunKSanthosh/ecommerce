@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import {Link,useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import route from './route.js';
 import "../css/Signup.scss";  // Import SCSS for styling
 
 const Signup = () => {
 const navigate=useNavigate()
 const email=localStorage.getItem('email')
+// console.log(email);
+
 const [user, setUser] = useState({
   email:email,
   username:"",
@@ -18,8 +22,8 @@ const handleChange=(e)=>{
 const handleSubmit=async(e)=>{
   e.preventDefault();
   try{
-  const {data,status}=await axios.post(`${route()}signup`,user,{headers:{"Content-Type":"application/json"}});
-  console.log("res");
+  const {data,status}=await axios.post(`${route()}signup`,user);
+ 
   if(status==201){
     localStorage.removeItem('email');
     alert(data.msg)
@@ -31,7 +35,7 @@ const handleSubmit=async(e)=>{
   }
 catch(error){
   alert("error occured")
-}
+  }
 }
 
 return (
@@ -53,7 +57,7 @@ return (
               name="username"
               value={user.username}
               onChange={handleChange}
-              className={error ?'error': ''}
+              // className={error ?'error': ''}
             />
           </div>
 
@@ -65,7 +69,7 @@ return (
               name="password"
               value={user.password}
               onChange={handleChange}
-              className={error ?'error': ''}
+              // className={error ?'error': ''}
             />
           </div>
 
@@ -75,9 +79,9 @@ return (
               type="password"
               id="cpassword"
               name="cpassword"
-              value={user.confirmPassword}
+              value={user.cpassword}
               onChange={handleChange}
-              className={error ?'error': ''}
+              // className={error ?'error': ''}
 
             />
           </div>
@@ -89,13 +93,14 @@ return (
               name="role"
               value={user.role}
               onChange={handleChange}
-              className={error ?'error': ''}
+              // className={error ?'error': ''}
             >
+              <option value="">Select one option</option>
               <option value="buyer">Buyer</option>
               <option value="seller">Seller</option>
             </select>
           </div>
-          {error && <div className="error-message">{error}</div>}
+          {/* {error && <div className="error-message">{error}</div>} */}
 
 
           <button type="submit">Sign Up</button>

@@ -1,5 +1,7 @@
 import React,{useState} from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
+import route from './route.js'
 import '../css/Login.scss'
 const Login=()=> {
   const navigate=useNavigate();
@@ -10,6 +12,8 @@ const Login=()=> {
   const handleSubmit =async (e) => {
     e.preventDefault();
     try {
+      console.log("hiiii");
+      
       const {status,data}=await axios.post(`${route()}signin`,loginDetails,{Headers:{"Content-Type":"application/json"}});
     if(status===200){
       localStorage.setItem("Auth",data.token)
@@ -70,7 +74,7 @@ const Login=()=> {
 
           <div className="signup">
             <p>
-              Don't have an account? <a href="/signup">Sign Up</a>
+              Don't have an account? <a href="/email">Sign Up</a>
             </p>
           </div>
         </form>

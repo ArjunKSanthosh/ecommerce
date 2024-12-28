@@ -6,5 +6,8 @@ const router=Router();
 
 router.route("/verifyemail").post(user.verifyEmail);
 router.route("/signup").post(user.signUp);
+router.route("/home").post(user.home);
+router.route("/signin").post(user.signIn);
+
 
 export default router;

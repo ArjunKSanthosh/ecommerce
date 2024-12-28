@@ -8,6 +8,7 @@ import bcrypt from "bcrypt"
 import jsonwebtoken from "jsonwebtoken"
 import nodemailer from "nodemailer"
 import pkg from "jsonwebtoken";
+import { log } from 'node:console'
 
 const {sign}=pkg
 const transporter = nodemailer.createTransport({
@@ -102,6 +103,7 @@ const transporter = nodemailer.createTransport({
   }
   export async function signUp(req,res){
     try {
+        console.log(req.body);
         const {email,username,password,cpassword,role} = req.body;
         if(!(email&&username&&password&&cpassword&&role))
             return res.status(404).send({msg:"Fields are empty"});
@@ -120,12 +122,14 @@ const transporter = nodemailer.createTransport({
           return res.status(404).send({msg:error});
       }
     }
-    export async function signIn(req,res) {
+export async function signIn(req,res) {
+ 
+    
         try {
       const {email,password}=req.body;  
     
       if(!(email&&password))
-          return res.status(404).send({msg:"feilds are empty"})
+          return res.status(404).send({msg:"fields are empty"})
     
       const user=await loginSchema.findOne({email})
       if(user===null)
@@ -133,6 +137,8 @@ const transporter = nodemailer.createTransport({
     
       //convert to hash and compare using bcrypt
       const success=await bcrypt.compare(password,user.password);
+      console.log(success);
+      
       if(success!==true)
           return res.status(404).send({msg:"email or password is invalid"})
       //generate token using sign(JWT key)
