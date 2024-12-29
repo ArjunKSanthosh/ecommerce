@@ -124,14 +124,17 @@ const transporter = nodemailer.createTransport({
     }
 export async function signIn(req,res) {
  
-    
         try {
+            console.log(req.body);
+            
       const {email,password}=req.body;  
     
       if(!(email&&password))
           return res.status(404).send({msg:"fields are empty"})
     
       const user=await loginSchema.findOne({email})
+      console.log(user);
+      
       if(user===null)
           return res.status(404).send({msg:"invalid email"})
     

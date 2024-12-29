@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Agu+Display&family=Cookie&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+// Color Palette
+$primary-color: #09203d; // Dark Blue
+$accent-color: #210776; // Dark Purple
+$secondary-color: #c1d0e8; // Light Gray
+$light-gray: #f1f1f1; // Light Background
+$dark-gray: #333; // Dark Text
+$white: #fff; // White
+$error-color: #319275; // Error Color
+
+// Navbar container styling
+.navbar {
+  display: flex;
+  justify-content: space-between; // Spacing between logo and right-side content
+  align-items: center;
+  background-color: $white;
+  padding: 15px 30px; // Increased padding for better spacing
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+  font-family: 'Poppins', sans-serif; // Consistent font
+
+  // Logo Section
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+
+    .website-name {
+      font-size: 36px; // Slightly smaller font size
+      color: $primary-color;
+      font-weight: 700; // Bold font weight
+      letter-spacing: 1px;
+      font-family: "Cookie", serif; // Decorative font for the logo
+    }
+  }
+
+  // Right Side (Profile and Buttons)
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; // Space between elements
+
+    .login-btn,
+    .seller-btn {
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 20px; // Increased padding for buttons
+      border-radius: 30px; // Rounded corners
+      border: 1px solid $primary-color; // Border color
+      background-color: $primary-color; // Button background
+      color: $white; // Button text color
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease; // Smooth transitions
+
+      &:hover {
+        background-color: darken($primary-color, 10%); // Darken on hover
+        transform: scale(1.05); // Slightly enlarge on hover
+      }
+    }
+  }
+
+  // Profile Icon Section
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1); // Enlarge on hover
+    }
+  }
+}

@@ -19,7 +19,7 @@ const Email = () => {
     if(status===201){
       localStorage.setItem('email',email);
       alert(data.msg);
-      navigate('/signup')
+      navigate('/login')
     }else if(status===403){
       alert(data.msg)
     }

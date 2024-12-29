@@ -1,9 +1,10 @@
 import React,{useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// import './Home.scss';
+import '../css/Home.scss';
 
 const Home = ({setId,setRole,setLoggedIn}) => {
+  const navigate=useNavigate();
   const value=localStorage.getItem('Auth');
   useEffect(()=>{
     getDetails();
@@ -17,14 +18,17 @@ const Home = ({setId,setRole,setLoggedIn}) => {
         setRole(data.role);
         setLoggedIn(true)
       }
-    }}
+    
+    }
+    
+  }
      catch (error) {
       console.log("error");
     }
   }
   return (
     <div className='home'>
-      <h1>HHAAII</h1>
+      <h1>HAAII</h1>
     </div>
   )
 }
