@@ -13,15 +13,16 @@ function App() {
   const [id,setId]=useState("");
   const [role,setRole]=useState("");
   const [loggedIn,setLoggedIn]=useState(false);
+  
   return (
     <BrowserRouter>
           <Navbar id={id} role={role} loggedIn={loggedIn}/>
 
         <Routes>
-            <Route path='/' Component={Home}/>
             <Route path='/login' Component={Login}/>
             <Route path='/signup' Component={Signup}/>
             <Route path='/email' Component={Email}/>
+            <Route path='/' element={<Home  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/profile' element={<Profile  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
 
         </Routes>

@@ -22,6 +22,7 @@ const transporter = nodemailer.createTransport({
  export async function home(req,res) {
     try {
         const _id=req.user.userId;
+        console.log(_id);
         const user=await loginSchema.findOne({_id});
         if(!user)
             return res.status(403).send({msg:"Unauthorized acces"});
@@ -31,7 +32,33 @@ const transporter = nodemailer.createTransport({
         res.status(404).send({msg:"error"})
     }
 }
-
+export async function edituser(req,res){
+    try {
+        const {...user}=req.body;
+        const id=req.user.userId;
+        const check=await userSchema.findOne({userId})
+        if(!check){
+            const data=await userSchema.updateOne({userId:id},{$set:{...user}})
+        }else{
+            const data=await userSchema.create({userId:id,...user});
+        }  
+        return res.status(201).send({msg:"Updated"})
+    } catch (error) {
+        res.status(404).send({msg:"error"})
+    }
+}
+export  async function profile(req,res){
+    try {
+        const _id=req.user.userId;
+        const user =await userSchema.findOne({_id});
+        if(!user)
+            return res.status(403).send({msg:"unauthorizd access"});
+        const profile=await userSchema.findOne({userId:_id})
+        const address=await addresSchema.findone({userId:_id},{addresses:1})
+    } catch (error) {
+       res.status(404).send({msg:"error"}) 
+    }
+}
 
  export async function verifyEmail(req,res) {
     const {email}=req.body;

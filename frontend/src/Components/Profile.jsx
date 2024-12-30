@@ -1,20 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../css/Profile.scss'; // Import SCSS for styling
-
-const Profile = () => {
+import axios from 'axios';
+import route from './route';
+const Profile = ({setId,setRole,setLoggedIn}) => {
   // Sample user data (this could come from props or state in a real application)
-  const user = {
+  const value=localStorage.getItem('Auth')
+  const [isEditing,setIsEditing]=useState(false)
+  const [address,setAddress]=usestate([
+
+  ]);
+  const [profile,setProfile]=usestate({})
+  const [user, setUser ] = useState({
     firstName: "John",
     lastName: "Doe",
     phone: "123-456-7890",
     gender: "male", // or "female"
-    address: {
-      home: "",
-      pincode: "",
-      landmark: "",
-      street: "",
-      district: ""
-    }
+  
+  })
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser ((prevUser ) => ({
+      ...prevUser ,
+      [name]: value
+    }));
+  };
+
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing); // Toggle edit mode
   };
 
   return (
@@ -25,17 +39,51 @@ const Profile = () => {
           alt="User " 
           className="profile-image" 
         />
-        <h2 className="profile-name">{user.firstName} {user.lastName}</h2>
-        <p className="profile-phone">Phone: {user.phone}</p>
+        <input 
+          type="text" 
+          className="profile-name" 
+          name="firstName" 
+          value={user.firstName} 
+          onChange={handleChange} 
+          disabled={!isEditing} // Disable input if not editing
+        />
+        <input 
+          type="text" 
+          className="profile-name" 
+          name="lastName" 
+          value={user.lastName} 
+          onChange={handleChange} 
+          disabled={!isEditing} // Disable input if not editing
+        />
+        <input 
+          type="text" 
+          className="profile-phone" 
+          name="phone" 
+          value={user.phone} 
+          onChange={handleChange} 
+          disabled={!isEditing} // Disable input if not editing
+        />
         <div className="profile-gender">
           <label>
-            <input type="checkbox" checked={user.gender === "male"} /> Male
+            <input 
+              type="checkbox" 
+              checked={user.gender === "male"} 
+              onChange={() => setUser ({ ...user, gender: "male" })} 
+              disabled={!isEditing} // Disable checkbox if not editing
+            /> Male
           </label>
           <label>
-            <input type="checkbox" checked={user.gender === "female"} /> Female
+            <input 
+              type="checkbox" 
+              checked={user.gender === "female"} 
+              onChange={() => setUser ({ ...user, gender: "female" })} 
+              disabled={!isEditing} // Disable checkbox if not editing
+            /> Female
           </label>
         </div>
-        <button className="profile-edit-btn">Edit Details</button>
+        <button className="profile-edit-btn" onClick={handleEditToggle}>
+          {isEditing ? "Save Profile" : "Edit Profile"} {/* Change button text */}
+        </button>
       </div>
 
       <div className="profile-right">
@@ -60,7 +108,7 @@ const Profile = () => {
           <label className="address-label">District:</label>
           <input type="text" className="address-input" placeholder="Enter District" />
         </div>
-        <button className="address-edit-btn">Edit Address</button>
+        <button className="address-edit-btn">Edit Address </button>
       </div>
     </div>
   );

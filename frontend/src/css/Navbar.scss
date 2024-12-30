@@ -71,3 +71,31 @@ $error-color: #319275; // Error Color
     }
   }
 }
+.profile-popover {
+  position: absolute;
+  top: 60px;
+  background-color: $white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+    gap: 10px;
+  z-index: 9999;
+  
+
+  .popover-btn {
+    background: transparent;
+    border: none;
+    color: $dark-gray;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    padding: 8px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $light-gray;
+    }
+  }
+}
