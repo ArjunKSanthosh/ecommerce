@@ -60,9 +60,11 @@ const Navbar = ({ id, role, loggedIn }) => {
 
             {/* Seller Dashboard Button */}
             {isSeller && (
+              <Link to={'/company'}>
               <button className="seller-btn" onClick={handleSellerClick}>
                 Seller Dashboard
               </button>
+              </Link>
             )}
           </>
         ) : (

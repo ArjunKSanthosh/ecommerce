@@ -6,6 +6,7 @@ import Signup from './Components/Signup'
 import Email from './Components/Email' 
 import Navbar from './Components/Navbar'
 import Profile from './Components/Profile'
+import Company from './Components/Company'
 import './App.css'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path='/email' Component={Email}/>
             <Route path='/' element={<Home  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/profile' element={<Profile  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/company' element={<Company  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
 
         </Routes>
     </BrowserRouter>
