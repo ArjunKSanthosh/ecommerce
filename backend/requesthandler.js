@@ -47,6 +47,37 @@ export async function edituser(req,res){
         res.status(404).send({msg:"error"})
     }
 }
+export async function company(req,res) {
+    try {
+        const _id=req.user.userId;
+        const user=await loginSchema.findOne({_id});
+        if(!user)
+            return res.status(403).send({msg:"Unauthorized acces"});
+        const company=await companySchema.findOne({sellerId:_id});
+        const category=await categorySchema.find();
+        
+        return res.status(200).send({id:_id,role:user.role,company,category})
+        
+    } catch (error) {
+        return res.status(404).send({msg:"error"})
+    }
+}
+
+export async function editCompany(req,res) {
+    try {
+    const {...company}=req.body;
+    const id=req.user.userId
+    const check=await companySchema.findOne({sellerId:id})
+    if(check){
+        const data=await companySchema.updateOne({sellerId:id},{$set:{...company}});
+    }else{
+        const data=await companySchema.create({sellerId:id,...company});
+    }
+    return res.status(201).send({msg:"updated"});
+    } catch (error) {
+        return res.status(404).send({msg:"error"})
+    }
+}
 export  async function profile(req,res){
     try {
         const _id=req.user.userId;
@@ -178,3 +209,34 @@ export async function signIn(req,res) {
             return res.status(404).send({msg:"error"});
         }
     }
+    export async function addProduct(req,res) {
+        try {
+            const product=req.body;
+            console.log(req.body);
+            
+            const id=req.user.userId;
+            const data=await productSchema.create({sellerId:id,...product});
+        return res.status(201).send({msg:"Adding complete"});
+        } catch (error) {
+            return res.status(404).send({msg:"error"})
+        }
+    }
+    export async function editCategory(req,res) {
+        try {
+            
+            const {newCategory}=req.body;
+            console.log(newCategory);
+        const check=await categorySchema.findOne({})
+        
+        if(check){
+            const data=await categorySchema.updateOne({_id:check._id},{$push:{categories:newCategory}});
+        }else{
+            console.log("check");
+            const data=await categorySchema.create({categories:[newCategory]});
+        }
+        return res.status(201).send({msg:"updated"});
+        } catch (error) {
+            return res.status(404).send({msg:"error"})
+        }
+    }
+    

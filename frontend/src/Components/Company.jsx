@@ -1,26 +1,63 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/Company.scss';
 import axios from 'axios';
 import route from './route';
+import { Link } from 'react-router-dom';
 
-const Company = ({setRole,setLoggedIn}) => {
-  const value=localStorage.getItem('Auth')
-  const [company,setCompany]=useState({
-    name:"",
-    location:""
+const Company = ({ setId, setRole, setLoggedIn }) => {
+  const value = localStorage.getItem('Auth');
+  const [company, setCompany] = useState({
+    name: "",
+    location: ""
   });
-  const [isEditing, setIsEditing] = useState(false);
-  const [companyName, setCompanyName] = useState('Company Name');
-  const [companyLocation, setCompanyLocation] = useState('Location');
+  const [categories, setCategories] = useState([]);
+  const [isEditable, setIsEditable] = useState(false);
 
-  // Handle toggle for editing
-  const handleEditClick = () => {
-    setIsEditing(!isEditing);
+  useEffect(() => {
+    getEssentials();
+  }, []);
+
+  const getEssentials = async () => {
+    try {
+      const { status, data } = await axios.get(`${route()}company`, { headers: { "Authorization": `Bearer ${value}` } });
+      if (status === 200) {
+        setId(data.id);
+        setRole(data.role);
+        setLoggedIn(true);
+        if (data.company)
+          setCompany(data.company);
+        if (data.category.length > 0)
+          setCategories(data.category[0].categories);
+      }
+    } catch (error) {
+      console.log("error");
+    }
   };
 
-  // Save the details after editing
-  const handleSaveClick = () => {
-    setIsEditing(false);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCompany((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleEditClick = () => {
+    setIsEditable(true);
+  };
+
+  const handleSave = async () => {
+    if (isEditable) {
+      const { status, data } = await axios.post(`${route()}editcompany`, company, { headers: { "Authorization": `Bearer ${value}` } });
+      if (status === 201) {
+        alert(data.msg);
+      } else {
+        alert("error");
+      }
+      setIsEditable(false);
+    } else {
+      setIsEditable(false);
+    }
   };
 
   return (
@@ -28,38 +65,42 @@ const Company = ({setRole,setLoggedIn}) => {
       {/* Left Side (Company Details) */}
       <div className="left-side">
         <img
-          src="company-image.jpg"
+          src="nexus.png"
           alt="Company"
           className="company-image"
         />
         <div className="company-details">
           <div className="company-name">
-            {isEditing ? (
+            <label htmlFor="">Company Name</label>
+            {isEditable ? (
               <input
                 type="text"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
+                name="name"
+                value={company.name}
+                onChange={handleChange}
                 className="edit-input"
               />
             ) : (
-              <span>{companyName}</span>
+              <p>{company.name}</p>
             )}
           </div>
           <div className="company-location">
-            {isEditing ? (
+            <label htmlFor="">Location</label>
+            {isEditable ? (
               <input
                 type="text"
-                value={companyLocation}
-                onChange={(e) => setCompanyLocation(e.target.value)}
+                name="location"
+                value={company.location}
+                onChange={handleChange}
                 className="edit-input"
               />
             ) : (
-              <span>{companyLocation}</span>
+              <p>{company.location}</p>
             )}
           </div>
           <div className="buttons">
-            {isEditing ? (
-              <button className="save-btn" onClick={handleSaveClick}>
+            {isEditable ? (
+              <button className="save-btn" onClick={handleSave}>
                 Save
               </button>
             ) : (
@@ -73,7 +114,13 @@ const Company = ({setRole,setLoggedIn}) => {
 
       {/* Right Side (Add Product) */}
       <div className="right-side">
-        <button className="add-product-btn">Add Product</button>
+        <div className="top">
+        <p>Categories</p>
+        <p>Add Product</p>
+        <Link to={'/addproduct'}>
+          <button className="add-product-btn"><img src="add.png" alt="" /></button>
+          </Link>
+        </div>
       </div>
     </div>
   );

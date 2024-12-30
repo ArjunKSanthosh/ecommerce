@@ -1,0 +1,140 @@
+.add-product {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    background-color: #ffffff; /* White background for a clean look */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 600px; /* Limit the width */
+    margin: 40px auto; /* Center the container with margin */
+    max-height: 80vh; /* Set a maximum height for the container */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  h2 {
+    font-size: 28px; /* Title size */
+    color: #333; /* Dark text color */
+    text-align: center; /* Center the title */
+    margin-bottom: 20px; /* Space below the title */
+  }
+  
+  .product-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 20px; /* Space between form groups */
+  }
+  
+  label {
+    font-weight: bold; /* Bold labels */
+    margin-bottom: 5px; /* Space below labels */
+    color: #555; /* Darker color for labels */
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 12px; /* Increased padding for comfort */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Larger font size */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
+  }
+  
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus {
+    border-color: #007bff; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow on focus */
+    outline: none; /* Remove default outline */
+  }
+  
+  .category-select {
+    display: flex;
+    align-items: center;
+  }
+  
+  .add-category {
+    display: flex;
+    align-items: center;
+    margin-left: 10px; /* Space between select and button */
+  }
+  
+  .add-category button {
+    background-color: #28a745; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition */
+  }
+  
+  .add-category button:hover {
+    background-color: #218838; /* Darker green on hover */
+  }
+  
+  .new-category-input {
+    display: flex;
+    align-items: center;
+  }
+  
+  .new-category-input input {
+    flex: 1; /* Take remaining space */
+    margin-right: 10px; /* Space between input and button */
+  }
+  
+  .size-quantity {
+    display: flex;
+    flex-wrap: wrap; /* Wrap sizes to next line if needed */
+  }
+  
+  .size-input {
+    display: flex;
+    align-items: center;
+    margin-right: 15px; /* Space between size inputs */
+  }
+  
+  .size-input label {
+    margin-right: 5px; /* Space between label and input */
+  }
+  
+  .submit-btn {
+    padding: 12px 20px;
+    background-color: #007bff; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Larger font size */
+    transition: background-color 0.3s; /* Smooth transition */
+    margin-top: 20px; /* Space above the button */
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .add-product {
+      padding: 20px; /* Reduce padding on smaller screens */
+    }
+  
+    h2 {
+      font-size: 24px; /* Smaller title on mobile */
+    }
+  
+    input[type="text"],
+    input[type="number"],
+    select {
+      font-size: 14px; /* Smaller font size on mobile */
+    }
+  
+    .submit-btn {
+      font-size: 14px; /* Smaller button text on mobile */
+    }
+  }
