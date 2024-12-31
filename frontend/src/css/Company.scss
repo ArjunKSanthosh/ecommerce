@@ -45,6 +45,13 @@ body {
     font-family: "Poppins", serif;
     color: rgb(4, 4, 65);
   }
+  ul{
+    list-style: none;
+    border-radius: 15px;
+    width: 50%;
+    margin-top: 5%;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;  }
 }
 
 .company-image {

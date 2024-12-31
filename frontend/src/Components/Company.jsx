@@ -45,6 +45,27 @@ const Company = ({ setId, setRole, setLoggedIn }) => {
   const handleEditClick = () => {
     setIsEditable(true);
   };
+  const getCount = () => {
+    // Initialize a new object to store category counts
+    let categoryCounts = {};
+  
+    // Loop over the categories array
+    categories.forEach((category) => {
+      let count = 0;
+      // Loop over the sellerCategory array to count occurrences of each category
+      sellerCat.forEach((scategory) => {
+        if (scategory.category === category) {
+          count++;
+        }
+      });
+  
+      // Store the count for the category in the categoryCounts object
+      categoryCounts[category] = count;
+    });
+  
+    // Use setCount to update the state with the categoryCounts object
+    setCount(categoryCounts);
+  }
 
   const handleSave = async () => {
     if (isEditable) {
@@ -121,6 +142,13 @@ const Company = ({ setId, setRole, setLoggedIn }) => {
           <button className="add-product-btn"><img src="add.png" alt="" /></button>
           </Link>
         </div>
+         <ul>
+          {categories.map((category, index) => (
+                <Link to={`/products/${category}`}key={index}>
+              <li >{category}</li>
+            </Link>
+          ))}
+        </ul>
       </div>
     </div>
   );

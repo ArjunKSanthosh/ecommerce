@@ -40,6 +40,7 @@ const Navbar = ({ id, role, loggedIn }) => {
         {loggedIn ? (
           <>
             {/* Profile Icon & Popover */}
+              <h3>hiii</h3>
             <div className="profile-containerr">
               <FaUserCircle 
                 className="profile-icon" 

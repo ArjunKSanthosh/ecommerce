@@ -8,6 +8,9 @@ import Navbar from './Components/Navbar'
 import Profile from './Components/Profile'
 import Company from './Components/Company'
 import AddProduct from './Components/Addproduct'
+import DisProd from './Components/DisProd'
+import Products from './Components/Products'
+import EditProduct from './Components/EditProduct'
 import './App.css'
 
 function App() {
@@ -28,6 +31,10 @@ function App() {
             <Route path='/profile' element={<Profile  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/company' element={<Company  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/addproduct' element={<AddProduct  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/products/:category' element={<Products  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/product/:id' element={<DisProd  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/editproduct/:_id' element={<EditProduct  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+
 
         </Routes>
     </BrowserRouter>

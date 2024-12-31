@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import '../css/Profile.scss'; // Import SCSS for styling
-import axios from 'axios';
-import route from './route';
+import React, { useEffect, useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
+import axios from "axios";
+import route from "./route";
+import '../css/Profile.scss';
 
-const Profile = ({ setId, setRole, setLoggedIn }) => {
-  const value = localStorage.getItem('Auth');
-  const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState({});
-  const [addresses, setAddresses] = useState([]);
-  const [newAddress, setNewAddress] = useState({ houseNumber: "", houseName: "", place: "", pincode: "", postOffice: "" });
+const Profile = ({setId,setRole,setLoggedIn}) => {
+  const value=localStorage.getItem('Auth');
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isEditingAddresses, setIsEditingAddresses] = useState(false);
-  const [editIndex, setEditIndex] = useState(null); // Track which address is being edited
-  const [editAddress, setEditAddress] = useState({ houseNumber: "", houseName: "", place: "", pincode: "", postOffice: "" }); // Track the address being edited
-
-  useEffect(() => {
+  const [addresses, setAddresses] = useState([
+  ]);
+  const [profile, setProfile] = useState({});
+  useEffect(()=>{
     getEssentials();
-  }, []);
-
-  const getEssentials = async () => {
+  },[])
+  const getEssentials=async()=>{
     try {
-      const { status, data } = await axios.get(`${route()}profile`, { headers: { "Authorization": `Bearer ${value}` } });
-      if (status === 200) {
+      
+      const {status,data}=await axios.get(`${route()}profile`,{headers:{"Authorization":`Bearer ${value}`}});
+      if (status==200) {
         setId(data.id);
         setRole(data.role);
         setLoggedIn(true);
-        if (data.profile) setProfile({ ...data.profile });
-        if (data.address) setAddresses(data.address.addresses);
+        if(data.profile)
+          setProfile({...data.profile});
+        if(data.address)
+          setAddresses(data.address.addresses)
       }
-    } catch (error) {
-      console.log("Error fetching profile data:", error);
     }
-  };
-
+     catch (error) {
+      console.log("error");
+    }
+  }
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
     setProfile((prev) => ({
@@ -39,155 +39,201 @@ const Profile = ({ setId, setRole, setLoggedIn }) => {
       [name]: value,
     }));
   };
-
-  const handleGenderChange = (e) => {
-    setProfile((prev) => ({
-      ...prev,
-      gender: e.target.value,
-    }));
-  };
-
-  const handleSubmitProfile = async () => {
-    if (isEditing) {
-      const { status, data } = await axios.post(`${route()}edituser`, profile, { headers: { "Authorization": `Bearer ${value}` } });
-      if (status === 201) {
-        alert(data.msg);
-      } else {
-        alert("Error updating profile");
+  const handleSubmitProfile=async()=>{
+    if(isEditingProfile){
+      const {status,data}=await axios.post(`${route()}edituser`,profile,{headers:{"Authorization":`Bearer ${value}`}});
+      if (status===201) {
+        alert(data.msg)
+      }else{
+        alert("error")
       }
+      setIsEditingProfile(!isEditingProfile);
     }
-    setIsEditing(!isEditing);
+    else{
+      setIsEditingProfile(!isEditingProfile);
+    }
+  }
+  const handleAddressChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedAddresses = [...addresses];
+    updatedAddresses[index] = {
+      ...updatedAddresses[index],
+      [name]: value,
+    };
+    setAddresses(updatedAddresses);
   };
 
-  // Define the handleAddAddress function
-  const handleAddAddress = async () => {
-    try {
-      const { status, data } = await axios.post(`${route()}addaddress`, { addresses: [...addresses, newAddress] }, { headers: { "Authorization": `Bearer ${value}` } });
-      if (status === 201) {
-        alert(data.msg);
-        setAddresses((prev) => [...prev, newAddress]); // Update the addresses state
-        setNewAddress({ houseNumber: "", houseName: "", place: "", pincode: "", postOffice: "" }); // Reset the newAddress state
-      } else {
-        alert("Error adding address");
+  const handleAddAddress = () => {
+    setAddresses([
+      ...addresses,
+      { houseNumber: "", houseName: "", place: "", pincode: "", postOffice: "" },
+    ]);
+  };
+  const handleSubmitAddress=async()=>{
+    if(isEditingAddresses){
+      const {status,data}=await axios.post(`${route()}editaddress`,addresses,{headers:{"Authorization":`Bearer ${value}`}});
+      if (status===201) {
+        alert(data.msg)
+      }else{
+        alert("error")
       }
-    } catch (error) {
-      console.log("Error adding address:", error);
-      alert("An error occurred while adding the address.");
+      setIsEditingAddresses(!isEditingAddresses);
     }
-  };
-
-  // Define the handleEditAddress function
-  const handleEditAddress = (index) => {
-    setEditIndex(index);
-    setEditAddress(addresses[index]); // Set the address to be edited
-  };
-
-  // Define the handleSaveEdit function
-  const handleSaveEdit = async () => {
-    try {
-      const updatedAddresses = addresses.map((address, index) => (index === editIndex ? editAddress : address));
-      const { status, data } = await axios.post(`${route()}editaddress`, { addresses: updatedAddresses }, { headers: { "Authorization": `Bearer ${value}` } });
-      if (status === 200) {
-        setAddresses(updatedAddresses); // Update the addresses state
-        alert(data.msg);
- setEditIndex(null); // Reset edit index
-        setEditAddress({ houseNumber: "", houseName: "", place: "", pincode: "", postOffice: "" }); // Reset the editAddress state
-      } else {
-        alert("Error updating address");
-      }
-    } catch (error) {
-      console.log("Error updating address:", error);
-      alert("An error occurred while updating the address.");
+    else{
+      setIsEditingAddresses(!isEditingAddresses);
     }
-  };
-
-  // Define the handleDeleteAddress function
-  const handleDeleteAddress = async (index) => {
-    try {
-      const updatedAddresses = addresses.filter((_, i) => i !== index);
-      const { status, data } = await axios.post(`${route()}editaddress`, { addresses: updatedAddresses }, { headers: { "Authorization": `Bearer ${value}` } });
-      if (status === 200) {
-        setAddresses(updatedAddresses); // Update the addresses state
-        alert("Deleted Succesfully");
-      } else {
-        alert("Error deleting address");
-      }
-    } catch (error) {
-      console.log("Error deleting address:", error);
-      alert("An error occurred while deleting the address.");
-    }
-  };
-
+  }
   return (
-    <div className="profile-page-container">
-      <div className="profile-left">
-        <img src="dummy.jpg" alt="User  " className="profile-image" />
-        <input type="text" className="profile-name" name="firstName" value={profile.firstName || ""} onChange={handleProfileChange} disabled={!isEditing} placeholder="First Name" />
-        <input type="text" className="profile-name" name="lastName" value={profile.lastName || ""} onChange={handleProfileChange} disabled={!isEditing} placeholder="Last Name" />
-        <input type="text" className="phone" name="phone" value={profile.phone || ""} onChange={handleProfileChange} disabled={!isEditing} placeholder="Phone" />
-
-        {/* Gender Radio Buttons */}
-        <div className="gender-selection">
-          <label>
-            <input
-              type="radio"
-              value="male"
-              checked={profile.gender === "male"}
-              onChange={handleGenderChange}
-              disabled={!isEditing}
-            />
-            Male
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="female"
-              checked={profile.gender === "female"}
-              onChange={handleGenderChange}
-              disabled={!isEditing}
-            />
-            Female
-          </label>
+    <div className="profile-container">
+      {/* Profile Section */}
+      <div className="profile-header">
+        <h1>User Details</h1>
+        <div className="profile-pic">
+          <img src="dummy.jpg" alt="" />
         </div>
+        <div className="profile-info">
+          <div className="input-container">
+            <div className="input-wrapper">
+              <input
+                type="text"
+                name="fname"
+                id="fname"
+                value={profile.fname}
+                onChange={handleProfileChange}
+                disabled={!isEditingProfile}
+                placeholder=" "
+                className="input"
+              />
+              <label htmlFor="fname" className="input-label">First Name</label>
+            </div>
 
-        <button onClick={handleSubmitProfile}>{isEditing ? "Save" : "Edit"}</button>
+            <div className="input-wrapper">
+              <input
+                type="text"
+                name="lname"
+                id="lname"
+                value={profile.lname}
+                onChange={handleProfileChange}
+                disabled={!isEditingProfile}
+                placeholder=" "
+                className="input"
+              />
+              <label htmlFor="lname" className="input-label">Last Name</label>
+            </div>
+
+            <div className="input-wrapper">
+              <input
+                type="text"
+                name="phone"
+                id="phone"
+                value={profile.phone}
+                onChange={handleProfileChange}
+                disabled={!isEditingProfile}
+                placeholder=" "
+                className="input"
+              />
+              <label htmlFor="phone" className="input-label">Phone Number</label>
+            </div>
+          </div>
+
+
+          <div className="gender">
+              <label>
+              Gender:
+              </label>
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={profile.gender === "male"}
+                onChange={handleProfileChange}
+                disabled={!isEditingProfile}
+              />
+              Male
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={profile.gender === "female"}
+                onChange={handleProfileChange}
+                disabled={!isEditingProfile}
+              />
+              Female
+            </label>
+          </div>
+          <button onClick={handleSubmitProfile}>
+            {isEditingProfile ? "Save Profile" : "Edit Profile"}
+          </button>
+        </div>
       </div>
 
-      <div className="profile-right">
-        <h2>Addresses</h2>
-        <div className="address-form">
-          <input type="text" placeholder="House Number" value={newAddress.houseNumber} onChange={(e) => setNewAddress({ ...newAddress, houseNumber: e.target.value })} />
-          <input type="text" placeholder="House Name" value={newAddress.houseName} onChange={(e) => setNewAddress({ ...newAddress, houseName: e.target.value })} />
-          <input type="text" placeholder="Place" value={newAddress.place} onChange={(e) => setNewAddress({ ...newAddress, place: e.target.value })} />
-          <input type="text" placeholder="Pincode" value={newAddress.pincode} onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })} />
-          <input type="text" placeholder="Post Office" value={newAddress.postOffice} onChange={(e) => setNewAddress({ ...newAddress, postOffice: e.target.value })} />
-          <button onClick={handleAddAddress}>Add Address</button>
+      {/* Addresses Section */}
+      <div className="address-section">
+        <div className="title">
+        <h3>Addresses</h3>
+        <button onClick={handleAddAddress} className="add-button" title="Add New Address">
+          {/* <svg className="add-icon" viewBox="0 0 24 24" height="30px" width="30px" xmlns="add.png">
+            <path strokeWidth="1.5" d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"></path>
+            <path strokeWidth="1.5" d="M8 12H16"></path>
+            <path strokeWidth="1.5" d="M12 16V8"></path>
+          </svg> */}
+          <img src="add.png" alt="" className="add-icon"/>
+        </button>
         </div>
+        <div className="address-part">
 
-        <ul className="address-list">
-          {addresses.map((address, index) => (
-            <li key={index} className="address-item">
-              <div>
-                {editIndex === index ? (
-                  <>
-                    <input type="text" value={editAddress.houseNumber} onChange={(e) => setEditAddress({ ...editAddress, houseNumber: e.target.value })} />
-                    <input type="text" value={editAddress.houseName} onChange={(e) => setEditAddress({ ...editAddress, houseName: e.target.value })} />
-                    <input type="text" value={editAddress.place} onChange={(e) => setEditAddress({ ...editAddress, place: e.target.value })} />
-                    <input type="text" value={editAddress.pincode} onChange={(e) => setEditAddress({ ...editAddress, pincode: e.target.value })} />
-                    <input type="text" value={editAddress.postOffice} onChange={(e) => setEditAddress({ ...editAddress, postOffice: e.target.value })} />
-                    <button onClick={handleSaveEdit}>Save</button>
-                  </>
-                ) : (
-                  <>
-                    <p>{address.houseNumber} - {address.houseName}, {address.place}, {address.pincode}, {address.postOffice}</p>
-                    <button onClick={() => handleEditAddress(index)}>Edit</button>
-                    <button onClick={() => handleDeleteAddress(index)}>Delete</button>
-                  </>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
+        
+        {addresses.map((address, index) => (
+          <div key={index} className="address-container">
+            <input
+              type="text"
+              name="houseName"
+              placeholder="House Name"
+              value={address.houseName}
+              onChange={(e) => handleAddressChange(index, e)}
+              disabled={!isEditingAddresses}
+            />
+            <input
+              type="text"
+              name="place"
+              placeholder="Place"
+              value={address.place}
+              onChange={(e) => handleAddressChange(index, e)}
+              disabled={!isEditingAddresses}
+            />
+            <input
+              type="text"
+              name="pincode"
+              placeholder="Pincode"
+              value={address.pincode}
+              onChange={(e) => handleAddressChange(index, e)}
+              disabled={!isEditingAddresses}
+            />
+            <input
+              type="text"
+              name="postOffice"
+              placeholder="Post Office"
+              value={address.postOffice}
+              onChange={(e) => handleAddressChange(index, e)}
+              disabled={!isEditingAddresses}
+            />
+            <input
+              type="text"
+              name="landmark"
+              placeholder="Landmark"
+              value={address.landmark}
+              onChange={(e) => handleAddressChange(index, e)}
+              disabled={!isEditingAddresses}
+            />
+            <button onClick={handleSubmitAddress}>
+              {isEditingAddresses ? "Save Address" : "Edit Address"}
+            </button>
+          </div>
+        ))}
+        </div>
       </div>
     </div>
   );
