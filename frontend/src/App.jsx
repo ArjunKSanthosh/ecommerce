@@ -11,6 +11,7 @@ import AddProduct from './Components/Addproduct'
 import DisProd from './Components/DisProd'
 import Products from './Components/Products'
 import EditProduct from './Components/EditProduct'
+import Cart from './Components/Cart'
 import './App.css'
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
             <Route path='/products/:category' element={<Products  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/product/:id' element={<DisProd  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/editproduct/:_id' element={<EditProduct  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/cart' element={<Cart  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+
 
 
         </Routes>

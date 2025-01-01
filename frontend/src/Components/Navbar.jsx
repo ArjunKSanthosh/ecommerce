@@ -68,6 +68,11 @@ const Navbar = ({ username, role, loggedIn }) => {
               </button>
               </Link>
             )}
+            <Link to={'/cart'}>
+              <button>
+                cart
+              </button>
+            </Link>
           </>
         ) : (
           <Link to={'/login'}><button className="login-btn">Login</button></Link>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import {Link} from 'react-router-dom'
 import axios from "axios";
 import route from "./route";
 import '../css/Profile.scss';
@@ -172,6 +173,10 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
 
       {/* Addresses Section */}
       <div className="address-section">
+        <div className="ordwish">
+          <Link style={{textDecoration:'none',color:'black'}}>My Orders</Link>
+          <Link style={{textDecoration:'none',color:'black'}}> My Wishlist</Link>
+        </div>
         <div className="title">
         <h3>Addresses</h3>
         <button onClick={handleAddAddress} className="add-button" title="Add New Address">

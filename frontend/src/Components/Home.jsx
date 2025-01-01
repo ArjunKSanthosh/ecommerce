@@ -1,89 +1,89 @@
-import React,{useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import route from './route';
 import axios from 'axios';
 import '../css/Home.scss';
 import { Link } from 'react-router-dom';
 
-const Home = ({setUsername,setRole,setLoggedIn}) => {
-  const value=localStorage.getItem('Auth');
-    const [products, setProducts] = useState([]);
-  useEffect(()=>{
+const Home = ({ setUsername, setRole, setLoggedIn }) => {
+  const value = localStorage.getItem('Auth');
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
     getDetails();
-  },[])
-  const getDetails=async()=>{
+  }, []);
+
+  const getDetails = async () => {
     try {
-      if(value!==null){
-        
-        const res=await axios.get(`${route()}home`,{headers:{"Authorization":`Bearer ${value}`}})
-      if (res.status==200) {
-        console.log(res.data);
-        
-        console.log(res.data.role);
-        setUsername(res.data.username)
-        setRole(res.data.role);
-        
-        setLoggedIn(true);
-        setProducts(res.data.products)
-      }else if(res.status==403){
-        localStorage.removeItem("Auth")
+      if (value !== null) {
+        const res = await axios.get(`${route()}home`, { headers: { "Authorization": `Bearer ${value}` } });
+        if (res.status == 200) {
+          console.log(res.data);
+          console.log(res.data.role);
+          setUsername(res.data.username);
+          setRole(res.data.role);
+          setLoggedIn(true);
+          setProducts(res.data.products);
+        } else if (res.status == 403) {
+          localStorage.removeItem("Auth");
+        }
       }
-    }}
-     catch (error) {
+    } catch (error) {
       console.log("error");
     }
-  }
+  };
+
   return (
-    <div className='home'>
-       <div className="products-container">
-      {products && products.length > 0 ? (
-        products.map((product) => (
-          <div key={product._id} className="product-card">
-            {/* Product Images */}
-            {product.pimages && product.pimages.length > 0 && (
-              <div className="product-images">
-                <div className="image-gallery">
-                  {product.pimages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`Product Image ${index + 1}`}
-                      className="product-image"
-                    />
-                  ))}
+    <div className="home-container">
+      <div className="home-products-container">
+        {products && products.length > 0 ? (
+          products.map((product) => (
+            <div key={product._id} className="home-product-card">
+              {/* Product Images */}
+              {product.pimages && product.pimages.length > 0 && (
+                <div className="home-product-images">
+                  <div className="home-image-gallery">
+                    {product.pimages.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt={`Product Image ${index + 1}`}
+                        className="home-product-image"
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-            <div className="bottom">
-              <div className="left">
-                {/* Category */}
-                <div className="product-info">
-                  <strong>Category:</strong> <span className='product-category'>{product.category.toUpperCase()}</span>
-                </div>
+              )}
+              <div className="home-bottom">
+                <div className="home-left">
+                  {/* Category */}
+                  <div className="home-product-info">
+                    <strong>Category:</strong> <span className='home-product-category'>{product.category.toUpperCase()}</span>
+                  </div>
 
-                {/* Product Name */}
-                <div className="product-info">
-                  <strong>Product Name:</strong> <span className='product-name'>{product.pname}</span>
-                </div>
+                  {/* Product Name */}
+                  <div className="home-product-info">
+                    <strong>Product Name:</strong> <span className='home-product-name'>{product.pname}</span>
+                  </div>
 
-                {/* Price */}
-                <div className="product-info">
-                  <strong>Price:</strong><span className='product-price'>${product.price.toFixed(2)}</span> 
+                  {/* Price */}
+                  <div className="home-product-info">
+                    <strong>Price:</strong><span className='home-product-price'>${product.price.toFixed(2)}</span>
+                  </div>
                 </div>
+                <Link to={`/product/${product._id}`}>
+                  <button className="home-view-product-button" title='View Product'>
+                    view product
+                  </button>
+                </Link>
               </div>
-              <Link to={`/product/${product._id}`}>
-  <button className="view-product-button" title='View Product'>
-    view product
-  </button>
-</Link>
             </div>
-          </div>
-        ))
-      ) : (
-        <p>No products available</p>
-      )}
+          ))
+        ) : (
+          <p>No products available</p>
+        )}
+      </div>
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
