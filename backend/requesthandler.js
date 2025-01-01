@@ -22,16 +22,20 @@ const transporter = nodemailer.createTransport({
  export async function home(req,res) {
     try {
         const _id=req.user.userId;
-        console.log(_id);
         const user=await loginSchema.findOne({_id});
+        
         if(!user)
             return res.status(403).send({msg:"Unauthorized acces"});
-        res.status(200).send({id:_id,role:user.role})
+        const products=await productSchema.find({
+            sellerId: { $not: { $eq: _id} }
+          })
+        return res.status(200).send({username:user.username,role:user.role,products})
         
     } catch (error) {
-        res.status(404).send({msg:"error"})
+        return res.status(404).send({msg:"error"})
     }
 }
+
 export async function editUser(req,res) {
     try {
     const {...user}=req.body;
