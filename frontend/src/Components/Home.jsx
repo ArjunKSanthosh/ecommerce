@@ -16,8 +16,12 @@ const Home = ({setUsername,setRole,setLoggedIn}) => {
         
         const res=await axios.get(`${route()}home`,{headers:{"Authorization":`Bearer ${value}`}})
       if (res.status==200) {
+        console.log(res.data);
+        
+        console.log(res.data.role);
         setUsername(res.data.username)
         setRole(res.data.role);
+        
         setLoggedIn(true);
         setProducts(res.data.products)
       }else if(res.status==403){
@@ -68,7 +72,7 @@ const Home = ({setUsername,setRole,setLoggedIn}) => {
               </div>
               <Link to={`/product/${product._id}`}>
   <button className="view-product-button" title='View Product'>
-    <FaEye className="view-icon" /> 
+    view product
   </button>
 </Link>
             </div>

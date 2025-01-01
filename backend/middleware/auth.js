@@ -1,4 +1,5 @@
 import pkg from "jsonwebtoken";
+import { log } from "node:console";
 const {verify}=pkg;
 export default async function Auth(req,res,next) {
     try {

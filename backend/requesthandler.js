@@ -4,6 +4,7 @@ import productSchema from './models/product.model.js'
 import companySchema from './models/company.model.js'
 import categorySchema from './models/category.model.js'
 import addressSchema from './models/address.model.js'
+import cartSchema from './models/cart.model.js'
 import bcrypt from "bcrypt"
 import jsonwebtoken from "jsonwebtoken"
 import nodemailer from "nodemailer"
@@ -39,8 +40,6 @@ const transporter = nodemailer.createTransport({
 export async function editUser(req,res) {
     try {
     const {...user}=req.body;
-    console.log(user);
-    
     const id=req.user.userId
     const check=await userSchema.findOne({userId:id})
     if(check){
@@ -53,6 +52,7 @@ export async function editUser(req,res) {
         return res.status(404).send({msg:"error"})
     }
 }
+
 export async function editAddress(req,res) {
     try {
     const address=req.body;
@@ -79,7 +79,7 @@ export async function company(req,res) {
         const company=await companySchema.findOne({sellerId:_id});
         const category=await categorySchema.find();
         
-        return res.status(200).send({id:_id,role:user.role,company,category})
+        return res.status(200).send({username:user.username,role:user.role,company,category})
         
     } catch (error) {
         return res.status(404).send({msg:"error"})
@@ -111,7 +111,7 @@ export async function profile(req,res) {
             return res.status(403).send({msg:"Unauthorized acces"});
         const profile=await userSchema.findOne({userId:_id});
         const address=await addressSchema.findOne({userId:_id},{addresses:1});
-        res.status(200).send({id:_id,role:user.role,profile,address})
+        res.status(200).send({username:user.username,role:user.role,profile,address})
         
     } catch (error) {
         res.status(404).send({msg:"error"})
@@ -312,3 +312,38 @@ export async function signIn(req,res) {
             return res.status(404).send({msg:"error"})
         }
     }
+    export async function product(req,res){
+        try{
+            
+            const{_id}=req.params  
+            const id=req.user.userId;
+            let isOnCart;
+            const user=await userSchema.findOne({userId:id});
+            console.log(user);
+            if(!user)
+                return res.status(403).send({msg:"Unauthorized acces"});
+            const product=await productSchema.findOne({_id})   ;
+            
+            const check=await cartSchema.findOne({$and:[{"product._id":_id},{buyerId:id}]});
+            if(check){
+                isOnCart=true
+            }
+            else{
+                isOnCart=false
+            }
+            return res.status(200).send({username:user.username,role:user.role,product,isOnCart})
+    } catch (error) {
+        return res.status(404).send({msg:"error"})
+    }
+
+ }
+ export async function addToCart(req,res) {
+    try {
+        const cart=req.body;
+        const id=req.user.userId;
+        const data=await cartSchema.create({buyerId:id,...cart});
+        return res.status(201).send({msg:"Added to Cart"});
+    } catch (error) {
+        return res.status(404).send({msg:"error"})
+    }
+}

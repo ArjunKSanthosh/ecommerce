@@ -3,7 +3,7 @@ import '../css/Navbar.scss'; // Import SCSS for styling
 import { FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ id, role, loggedIn }) => {
+const Navbar = ({ username, role, loggedIn }) => {
   const [isSeller, setIsSeller] = useState(false);      // Track if the user is a seller
   const [isPopoverVisible, setIsPopoverVisible] = useState(false); // Track visibility of popover
   
@@ -40,7 +40,8 @@ const Navbar = ({ id, role, loggedIn }) => {
         {loggedIn ? (
           <>
             {/* Profile Icon & Popover */}
-              <h3>hiii</h3>
+              <h3>{username}
+              </h3>
             <div className="profile-containerr">
               <FaUserCircle 
                 className="profile-icon" 

@@ -15,25 +15,25 @@ import './App.css'
 
 function App() {
 
-  const [id,setId]=useState("");
+  const [username,setUsername]=useState("");
   const [role,setRole]=useState("");
   const [loggedIn,setLoggedIn]=useState(false);
   
   return (
     <BrowserRouter>
-          <Navbar id={id} role={role} loggedIn={loggedIn}/>
+          <Navbar username={username} role={role} loggedIn={loggedIn}/>
 
         <Routes>
             <Route path='/login' Component={Login}/>
             <Route path='/signup' Component={Signup}/>
             <Route path='/email' Component={Email}/>
-            <Route path='/' element={<Home  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
-            <Route path='/profile' element={<Profile  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
-            <Route path='/company' element={<Company  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
-            <Route path='/addproduct' element={<AddProduct  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
-            <Route path='/products/:category' element={<Products  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
-            <Route path='/product/:id' element={<DisProd  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
-            <Route path='/editproduct/:_id' element={<EditProduct  setId={setId} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/' element={<Home  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/profile' element={<Profile  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/company' element={<Company  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/addproduct' element={<AddProduct  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/products/:category' element={<Products  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/product/:id' element={<DisProd  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/editproduct/:_id' element={<EditProduct  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
 
 
         </Routes>

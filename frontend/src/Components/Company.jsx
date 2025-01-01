@@ -4,7 +4,7 @@ import axios from 'axios';
 import route from './route';
 import { Link } from 'react-router-dom';
 
-const Company = ({ setId, setRole, setLoggedIn }) => {
+const Company = ({ setUsername, setRole, setLoggedIn }) => {
   const value = localStorage.getItem('Auth');
   const [company, setCompany] = useState({
     name: "",
@@ -21,7 +21,7 @@ const Company = ({ setId, setRole, setLoggedIn }) => {
     try {
       const { status, data } = await axios.get(`${route()}company`, { headers: { "Authorization": `Bearer ${value}` } });
       if (status === 200) {
-        setId(data.id);
+        setUsername(data.id);
         setRole(data.role);
         setLoggedIn(true);
         if (data.company)
