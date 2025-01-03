@@ -356,3 +356,32 @@ export async function getCart(req,res) {
         return res.status(404).send({msg:"error"})
     }
 }   
+export async function editQuantity(req,res){
+    try {
+        const{id,quantity,type}=req.body;
+        console.log(type);
+        
+        let setQuantity=0;
+        const qid=req.user.userId
+        const user=await loginSchema.findOne({_id:qid})
+        if(!user)
+            return res.status(403).send({msg:"Unauthorized acces"});
+        if(type=='increase'){
+         setQuantity=quantity+1;   
+        }
+        else if(type=='decrease'){
+            setQuantity=quantity-1;
+        }
+        else{
+            setQuantity=0
+        }
+        
+        const data=await cartSchema.updateOne({_id:id},{$set:{quantity:setQuantity}})
+        console.log(data);
+        
+        return res.status(201).send({msg:"updated"})
+        
+    } catch (error) {
+        return res.status(404).send({msg:"error"})
+    }
+}
