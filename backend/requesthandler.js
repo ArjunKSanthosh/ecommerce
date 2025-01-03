@@ -316,10 +316,8 @@ export async function signIn(req,res) {
         try{
             const {_id}=req.params  
             const id=req.user.userId;
-            console.log(id);    
             let isOnCart;
-            const user=await userSchema.find();
-            console.log(user);
+            const user=await userSchema.findOne({userId:id});
             if(!user)
                 return res.status(403).send({msg:"Unauthorized acces"});
             const product=await productSchema.findOne({_id}) ;
@@ -330,7 +328,7 @@ export async function signIn(req,res) {
             else{
                 isOnCart=false
             }
-            // return res.status(200).send({username:user.username,role:user.role,product,isOnCart})
+            return res.status(200).send({username:user.username,role:user.role,product,isOnCart})
     } catch (error) {
         return res.status(404).send({msg:"error"})
     }
@@ -357,4 +355,4 @@ export async function getCart(req,res) {
     } catch (error) {
         return res.status(404).send({msg:"error"})
     }
-}
+}   

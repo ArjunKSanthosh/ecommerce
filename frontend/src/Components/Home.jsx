@@ -40,18 +40,30 @@ const Home = ({ setUsername, setRole, setLoggedIn }) => {
             <div key={product._id} className="home-product-card">
               {/* Product Images */}
               {product.pimages && product.pimages.length > 0 && (
+                // <div className="home-product-images">
+                //   <div className="home-image-gallery">
+                //     {product.pimages.map((image, index) => (
+                //       <img
+                //         key={index}
+                //         src={image}
+                //         alt={`Product Image ${index + 1}`}
+                //         className="home-product-image"
+                //       />
+                //     ))}
+                //   </div>
+                // </div>
                 <div className="home-product-images">
-                  <div className="home-image-gallery">
-                    {product.pimages.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image}
-                        alt={`Product Image ${index + 1}`}
-                        className="home-product-image"
-                      />
-                    ))}
-                  </div>
+                      <div className="home-image-gallery">
+                        {product.pimages.length > 0 && (
+                          <img
+                            src={product.pimages[0]} // Show only the first image
+                            alt="Product Thumbnail"
+                            className="home-product-image"
+                          />
+                        )}
+                      </div>
                 </div>
+
               )}
               <div className="home-bottom">
                 <div className="home-left">
