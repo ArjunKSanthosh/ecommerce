@@ -147,7 +147,24 @@ $box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px
     .ordwish{
       display: flex;
       gap:  150px;
+      transition: all 0.3s ease;
+    .count{
+      color: white;
     }
+    }
+ a{
+  background-color: black;
+  color: white;
+  width: 180px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 20px;
+
+  a:hover{
+    transform: scale(1.1); // Zoom effect on hover
+  }
+ }
+
  
     .title {
       display: flex;

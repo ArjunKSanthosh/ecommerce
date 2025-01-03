@@ -191,6 +191,11 @@
             background-color: #1d76d1;
           }
         }
+        
+      }
+      img{
+        height: 50px;
+        width: 50px;
       }
     }
   }
@@ -219,5 +224,26 @@
     .product-details {
       padding: 20px;
     }
+  }
+  .size-btn {
+    padding: 10px 20px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .size-btn:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .size-btn.selected {
+    background-color: #007bff; /* Highlight color for selected size */
+    color: #fff; /* Text color for selected size */
+    font-weight: bold;
+    border-color: #0056b3;
   }
   

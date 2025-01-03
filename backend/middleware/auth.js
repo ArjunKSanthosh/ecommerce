@@ -1,5 +1,4 @@
 import pkg from "jsonwebtoken";
-import { log } from "node:console";
 const {verify}=pkg;
 export default async function Auth(req,res,next) {
     try {
@@ -8,6 +7,7 @@ export default async function Auth(req,res,next) {
             return res.status(403).send({msg:"Unauthorized access"});
         const token=key.split(" ")[1];
         const auth=await verify(token,process.env.JWT_KEY);
+        
         req.user=auth;
         next();
     } catch (error) {

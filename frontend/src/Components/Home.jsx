@@ -67,19 +67,19 @@ const Home = ({ setUsername, setRole, setLoggedIn }) => {
               )}
               <div className="home-bottom">
                 <div className="home-left">
-                  {/* Category */}
-                  <div className="home-product-info">
-                    <strong>Category:</strong> <span className='home-product-category'>{product.category.toUpperCase()}</span>
-                  </div>
-
                   {/* Product Name */}
                   <div className="home-product-info">
-                    <strong>Product Name:</strong> <span className='home-product-name'>{product.pname}</span>
+                     <span className='home-product-name'>{product.pname}</span>
                   </div>
+                  {/* Category */}
+                  <div className="home-product-info">
+                    <span className='home-product-category'>{product.category.toUpperCase()}</span>
+                  </div>
+
 
                   {/* Price */}
                   <div className="home-product-info">
-                    <strong>Price:</strong><span className='home-product-price'>${product.price.toFixed(2)}</span>
+                    <span className='home-product-price'>${product.price.toFixed(2)}</span>
                   </div>
                 </div>
                 <Link to={`/product/${product._id}`}>

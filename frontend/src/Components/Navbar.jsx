@@ -70,7 +70,7 @@ const Navbar = ({ username, role, loggedIn }) => {
             )}
             <Link to={'/cart'}>
               <button>
-                cart
+                <img src="cart.png" alt="" />
               </button>
             </Link>
           </>

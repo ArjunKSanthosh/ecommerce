@@ -18,7 +18,13 @@ $error-color: #319275; // Error Color
   padding: 15px 30px; // Increased padding for better spacing
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
   font-family: 'Poppins', sans-serif; // Consistent font
-
+button{
+  border: none;
+  background-color: white;
+  img{
+    width: 40px;
+  }
+}
   // Logo Section
   .navbar-logo {
     display: flex;

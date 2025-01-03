@@ -5,6 +5,7 @@ import companySchema from './models/company.model.js'
 import categorySchema from './models/category.model.js'
 import addressSchema from './models/address.model.js'
 import cartSchema from './models/cart.model.js'
+import wishlistSchema from './models/wishlist.model.js'
 import bcrypt from "bcrypt"
 import jsonwebtoken from "jsonwebtoken"
 import nodemailer from "nodemailer"
@@ -111,6 +112,7 @@ export async function profile(req,res) {
             return res.status(403).send({msg:"Unauthorized acces"});
         const profile=await userSchema.findOne({userId:_id});
         const address=await addressSchema.findOne({userId:_id},{addresses:1});
+        const wishcount=await wishlistSchema.countDocuments({buyerId:_id})
         res.status(200).send({username:user.username,role:user.role,profile,address})
         
     } catch (error) {
@@ -239,7 +241,6 @@ export async function signIn(req,res) {
     export async function addProduct(req,res) {
         try {
             const product=req.body;
-            console.log(req.body);
             
             const id=req.user.userId;
             const data=await productSchema.create({sellerId:id,...product});
@@ -316,19 +317,20 @@ export async function signIn(req,res) {
         try{
             const {_id}=req.params  
             const id=req.user.userId;
-            let isOnCart;
+            let isOnCart=false;
+            let isOnWishlist=false;
+            
             const user=await userSchema.findOne({userId:id});
             if(!user)
                 return res.status(403).send({msg:"Unauthorized acces"});
             const product=await productSchema.findOne({_id}) ;
-            const check=await cartSchema.findOne({$and:[{"product._id":_id},{buyerId:id}]});
-            if(check){
-                isOnCart=true
-            }
-            else{
-                isOnCart=false
-            }
-            return res.status(200).send({username:user.username,role:user.role,product,isOnCart})
+            const check1=await cartSchema.findOne({$and:[{"product._id":_id},{buyerId:id}]});
+            const check2=await wishlistSchema.findOne({$and:[{productId:_id},{buyerId:id}]});
+            if(check1)
+                isOnCart=true;
+            if(check2)
+                isOnWishlist=true;
+            return res.status(200).send({username:user.username,role:user.role,product,isOnCart,isOnWishlist})
     } catch (error) {
         return res.status(404).send({msg:"error"})
     }
@@ -359,8 +361,6 @@ export async function getCart(req,res) {
 export async function editQuantity(req,res){
     try {
         const{id,quantity,type}=req.body;
-        console.log(type);
-        
         let setQuantity=0;
         const qid=req.user.userId
         const user=await loginSchema.findOne({_id:qid})
@@ -377,10 +377,58 @@ export async function editQuantity(req,res){
         }
         
         const data=await cartSchema.updateOne({_id:id},{$set:{quantity:setQuantity}})
-        console.log(data);
+     
         
         return res.status(201).send({msg:"updated"})
         
+    } catch (error) {
+        return res.status(404).send({msg:"error"})
+    }
+}
+export async function addtoWishlist(req,res){
+    try {
+        const {id}=req.body;
+        const _id=req.user.userId;
+        const user=await loginSchema.findOne({_id})
+        if(!user)
+            return res.status(403).send({msg:"Unauthorized access"})
+        const list=await wishlistSchema.create({buyerId:_id,productId:id})
+        return res.status(201).send({msg:"added to wishlist"})
+    } catch (error) {
+        return res.status(404).send({msg:"error"})
+    }
+}
+export async function removefromWishlist(req,res) {
+    try {
+        const {id}=req.params;
+        const _id=req.user.userId;
+        const user=await loginSchema.findOne({_id})
+        if(!user)
+            return res.status(403).send({msg:"Unauthorized acces"});
+        console.log(user);
+        
+        const wishlist=await wishlistSchema.deleteOne({$and:[{buyerId:_id},{productId:id}]});
+        return res.status(201).send({msg:"removed"});
+    } catch (error) {
+        return res.status(404).send({msg:"error"})
+    }
+}
+export async function getWishlists(req,res) {
+    try {
+        console.log("_id");
+        const _id=req.user.userId;
+        
+        const user=await loginSchema.findOne({_id});
+        if(!user)
+            return res.status(403).send({msg:"Unauthorized acces"});
+        const wishlist=await wishlistSchema.find({buyerId:_id});
+        console.log(wishlist);
+        
+        const productPromises = wishlist.map(async (list) => {
+            return await productSchema.findOne({ _id: list.productId });
+        });
+        const products = await Promise.all(productPromises);
+        return res.status(200).send({username:user.username,role:user.role,products});
     } catch (error) {
         return res.status(404).send({msg:"error"})
     }

@@ -9,8 +9,8 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
   const value=localStorage.getItem('Auth');
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isEditingAddresses, setIsEditingAddresses] = useState(false);
-  const [addresses, setAddresses] = useState([
-  ]);
+  const [addresses, setAddresses] = useState([]);
+  const [countWishlist,setCountWishlist]=useState(0);
   const [profile, setProfile] = useState({});
   useEffect(()=>{
     getEssentials();
@@ -23,6 +23,7 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
         setUsername(data.id);
         setRole(data.role);
         setLoggedIn(true);
+        setCountWishlist(data.wishcount)
         if(data.profile)
           setProfile({...data.profile});
         if(data.address)
@@ -173,10 +174,10 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
 
       {/* Addresses Section */}
       <div className="address-section">
-        <div className="ordwish">
-          <Link style={{textDecoration:'none',color:'black'}}>My Orders</Link>
-          <Link style={{textDecoration:'none',color:'black'}}> My Wishlist</Link>
-        </div>
+          <div className="ordwish">
+            <Link style={{textDecoration:'none'}}>My Orders</Link>
+            <Link style={{textDecoration:'none'}} to={'/wishlist'}>My Wishlist</Link>
+          </div>
         <div className="title">
         <h3>Addresses</h3>
         <button onClick={handleAddAddress} className="add-button" title="Add New Address">
