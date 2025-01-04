@@ -59,15 +59,17 @@ $border-radius: 5px;
           
             input {
               padding: 10px;
-              border: 1px solid #ccc;
-              border-radius: $border-radius;
               font-size: 14px;
               transition: border-color 0.3s;
               border-radius: 30px;
-          
+              border: none;
+              font-family: "Poppins", serif;
               &:focus {
                 border-color: $primary-color;
                 outline: none;
+              }
+              &:hover{
+                transform: translate(0.5);
               }
             }
           }

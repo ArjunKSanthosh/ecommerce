@@ -67,10 +67,10 @@ const Login=()=> {
           <button type="submit" className="login-btn">
             Login
           </button>
-
+{/* 
           <div className="forgot-password">
             <a href="#">Forgot password?</a>
-          </div>
+          </div> */}
 
           <div className="signup">
             <p>
