@@ -145,10 +145,12 @@ const DisProd = ({ setUsername, setRole, setLoggedIn }) => {
 
             {/* Buy Now Button */}
             <div className="buy-options">
+              <Link to={'./scart'}>
               <button className="buy-btn">
                 <FaCreditCard className="icon" />
                 Buy Now
               </button>
+              </Link>
               {isOnCart ? (
                 <Link to={'/cart'} style={{ textDecoration: 'none' }}>
                   <button className="cart-btn">

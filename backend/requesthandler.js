@@ -358,6 +358,20 @@ export async function getCart(req,res) {
         return res.status(404).send({msg:"error"})
     }
 }   
+export async function getSingleCart(req,res){
+    try {
+        const {pid}=req.params;
+        const _id=req.user.userId;
+        const user=await loginSchema.findOne({_id})
+        if(!user)
+            return res.status(403).send({msg:"Unauthorized access"})
+        const cart=await cartSchema.findOne({buyerId:_id,'product._id':pid})
+        const addresses=await addressSchema.findOne({userId:_id},{addresses:1})
+        return res.status(200).send({username:user.username,role:user.role,cart,addresses})
+    } catch (error) {
+        return res.status(404),send({msg:"error"})
+    }
+}
 export async function editQuantity(req,res){
     try {
         const{id,quantity,type}=req.body;
@@ -431,5 +445,49 @@ export async function getWishlists(req,res) {
         return res.status(200).send({username:user.username,role:user.role,products});
     } catch (error) {
         return res.status(404).send({msg:"error"})
+    }
+}
+export async function addOrder(req, res) {
+    try {
+        const {selectedAddress}=req.body;
+        const _id = req.user.userId;
+        const user = await loginSchema.findOne({ _id });
+        if (!user) return res.status(403).send({ msg: "Unauthorized access" });
+
+        const cart = await cartSchema.find({ buyerId: _id }); // Find all cart items for the user
+        
+        if (!cart || cart.length === 0) {
+            return res.status(404).send({ msg: "No cart items found" });
+        }
+
+        // Process each cart item in parallel
+        const orderPromises = cart.map(async (c) => {
+            const size = c.size;
+            const field = `sizeQuantities.${size}`; // Dynamic field name for the size
+            const quantity = await productSchema.findOne({ _id: c.product._id }, { sizeQuantities: 1 });
+            
+            if (quantity && quantity.sizeQuantities[size] !== undefined && quantity.sizeQuantities[size] >= c.quantity) {
+                const newQuantity = quantity.sizeQuantities[size] - c.quantity;
+
+                // Update the product's quantity
+                await productSchema.updateOne({ _id: c.product._id }, { $set: { [field]: newQuantity } });
+
+                // Remove the product from the cart and create an order
+                await cartSchema.deleteOne({ buyerId: _id, "product._id": c.product._id });
+                await orderSchema.create({ buyerId: _id, product: c.product});
+                await soldproductSchema.create({ buyerId: _id, sellerId: c.product.sellerId, product: c.product,address:selectedAddress  });
+            } else {
+                // Handle case when the size or quantity is not sufficient
+                throw new Error(`Insufficient stock for product ${c.product}`);
+            }
+        });
+
+        // Wait for all orderPromises to resolve
+        await Promise.all(orderPromises);
+
+        return res.status(201).send({ msg: "Orders placed successfully",msg1:"success" });
+    } catch (error) {
+        console.error("Error placing orders:", error);
+        return res.status(500).send({ msg: "Error occurred while processing the order" });
     }
 }

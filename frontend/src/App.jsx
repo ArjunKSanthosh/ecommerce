@@ -13,6 +13,7 @@ import Products from './Components/Products'
 import EditProduct from './Components/EditProduct'
 import Cart from './Components/Cart'
 import WishList from './Components/WishList'
+import SingleCart from './Components/SingleCart'
 import './App.css'
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <Route path='/editproduct/:_id' element={<EditProduct  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/cart' element={<Cart  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/wishlist' element={<WishList  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/scart/:pid' element={<SingleCart  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
 
 
 

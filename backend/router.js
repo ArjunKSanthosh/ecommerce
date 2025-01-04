@@ -21,10 +21,12 @@ router.route("/editproduct/:_id").put(Auth,user.editProduct);
 router.route("/product/:_id").get(Auth,user.product);
 router.route("/addtocart").post(Auth,user.addToCart);
 router.route("/getcart").get(Auth,user.getCart); 
+router.route("/getsinglecart/:pid").get(Auth,user.getSingleCart); 
 router.route("/editquantity").post(Auth,user.editQuantity);
 router.route("/addtowishlist").post(Auth,user.addtoWishlist);
 router.route("/removefromwishlist/:id").delete(Auth,user.removefromWishlist);
 router.route("/getwishlists").get(Auth,user.getWishlists);
+router.route("/buynow").post(Auth,user.addOrder);
 
 
 
