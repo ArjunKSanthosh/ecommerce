@@ -27,6 +27,10 @@ router.route("/addtowishlist").post(Auth,user.addtoWishlist);
 router.route("/removefromwishlist/:id").delete(Auth,user.removefromWishlist);
 router.route("/getwishlists").get(Auth,user.getWishlists);
 router.route("/buynow").post(Auth,user.addOrder);
+router.route("/placeorder").post(Auth,user.addOrders);
+router.route("/getorders").get(Auth,user.getOrders);
+
+
 
 
 

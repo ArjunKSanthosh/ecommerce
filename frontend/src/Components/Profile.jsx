@@ -10,8 +10,10 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isEditingAddresses, setIsEditingAddresses] = useState(false);
   const [addresses, setAddresses] = useState([]);
-  const [countWishlist,setCountWishlist]=useState(0);
   const [profile, setProfile] = useState({});
+  const [countCart,setCountCart]=useState(0);
+  const [countWishlist,setCountWishlist]=useState(0);
+  const [countOrders,setCountOrders]=useState(0);
   useEffect(()=>{
     getEssentials();
   },[])
@@ -20,14 +22,16 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
       
       const {status,data}=await axios.get(`${route()}profile`,{headers:{"Authorization":`Bearer ${value}`}});
       if (status==200) {
-        setUsername(data.id);
+        setUsername(data.username);
         setRole(data.role);
         setLoggedIn(true);
-        setCountWishlist(data.wishcount)
         if(data.profile)
           setProfile({...data.profile});
         if(data.address)
-          setAddresses(data.address.addresses)
+          setAddresses(data.address.addresses);
+        setCountCart(data.cart);
+        setCountWishlist(data.wishlist);
+        setCountOrders(data.orders)
       }
     }
      catch (error) {
@@ -175,8 +179,9 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
       {/* Addresses Section */}
       <div className="address-section">
           <div className="ordwish">
-            <Link style={{textDecoration:'none'}}>My Orders</Link>
-            <Link style={{textDecoration:'none'}} to={'/wishlist'}>My Wishlist</Link>
+            <Link style={{textDecoration:'none'}} to={'/myorders'}>My Orders <span>({countOrders})</span></Link>
+            <Link style={{textDecoration:'none'}} to={'/wishlist'}>My Wishlist <span>({countWishlist})</span></Link>
+            <Link style={{textDecoration:'none'}} to={'/cart'}>My Cart <span>({countCart})</span></Link>
           </div>
         <div className="title">
         <h3>Addresses</h3>

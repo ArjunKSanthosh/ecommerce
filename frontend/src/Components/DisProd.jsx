@@ -79,7 +79,21 @@ const DisProd = ({ setUsername, setRole, setLoggedIn }) => {
       alert("Failed");
     }
   };
-
+  const handleBuynow = async () => {
+    if (cart.size) {
+      const { status, data } = await axios.post(`${route()}addtocart`, cart, {
+        headers: { "Authorization": `Bearer ${value}` }
+      });
+      if (status === 201) {
+        alert(data.msg);
+        navigate(`/scart/${product._id}`);
+      } else {
+        alert("Could not add to cart");
+      }
+    } else {
+      alert("Please select size");
+    }
+  };
   return (
     <div className="product-page">
       <div className="product-container">
@@ -115,13 +129,13 @@ const DisProd = ({ setUsername, setRole, setLoggedIn }) => {
           <div className="product-title">
             <h1>{product.pname}</h1>
             <div className="product-category">
-              <strong>{product.category?.toUpperCase()}</strong>
+              <span>{product.category?.toUpperCase()}</span>
             </div>
             <div className="product-brand">
-              <strong>Brand:</strong> {product.brand}
+         <span>Brand:</span> {product.brand}
             </div>
             <div className="product-price">
-              <strong>Price:</strong>
+            <span className='price'>Price:</span>
               <span>${product.price?.toFixed(2)}</span>
             </div>
 
@@ -145,7 +159,7 @@ const DisProd = ({ setUsername, setRole, setLoggedIn }) => {
 
             {/* Buy Now Button */}
             <div className="buy-options">
-              <Link to={'./scart'}>
+              <Link to={`/scart/${product._id}`} style={{ textDecoration: 'none' }}>
               <button className="buy-btn">
                 <FaCreditCard className="icon" />
                 Buy Now

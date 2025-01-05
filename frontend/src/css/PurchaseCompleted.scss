@@ -1,0 +1,87 @@
+
+.purchase-confirmation-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 0 20px;
+  }
+  
+  .header {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    color: #4CAF50;
+  }
+  
+  .main-content {
+    flex: 1;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .message-section {
+    margin-bottom: 30px;
+  }
+  
+  .confirmation-message {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .order-details {
+    font-size: 1rem;
+    color: #777;
+  }
+  
+  .navigation-section {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .home-button,
+  .shop-more-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .home-button {
+    background-color: #4CAF50;
+    color: #fff;
+  }
+  
+  .shop-more-button {
+    background-color: #2196F3;
+    color: #fff;
+  }
+  
+  .home-button:hover {
+    background-color: #45A049;
+  }
+  
+  .shop-more-button:hover {
+    background-color: #1E88E5;
+  }
+  
+  .footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #333;
+    color: #fff;
+    width: 100%;
+  }
+  

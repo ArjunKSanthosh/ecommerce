@@ -14,6 +14,8 @@ import EditProduct from './Components/EditProduct'
 import Cart from './Components/Cart'
 import WishList from './Components/WishList'
 import SingleCart from './Components/SingleCart'
+import PurchaseCompleted from './Components/PurchaseCompleted'
+import Orders from './Components/Orders'
 import './App.css'
 
 function App() {
@@ -40,6 +42,10 @@ function App() {
             <Route path='/cart' element={<Cart  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/wishlist' element={<WishList  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/scart/:pid' element={<SingleCart  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/purchasecompleted' Component={PurchaseCompleted}/>
+            <Route path='/myorders' element={<Orders  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+
+
 
 
 

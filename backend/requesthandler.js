@@ -6,6 +6,8 @@ import categorySchema from './models/category.model.js'
 import addressSchema from './models/address.model.js'
 import cartSchema from './models/cart.model.js'
 import wishlistSchema from './models/wishlist.model.js'
+import orderSchema from './models/order.model.js'
+import soldproductSchema from './models/soldproduct.model.js'
 import bcrypt from "bcrypt"
 import jsonwebtoken from "jsonwebtoken"
 import nodemailer from "nodemailer"
@@ -112,8 +114,12 @@ export async function profile(req,res) {
             return res.status(403).send({msg:"Unauthorized acces"});
         const profile=await userSchema.findOne({userId:_id});
         const address=await addressSchema.findOne({userId:_id},{addresses:1});
-        const wishcount=await wishlistSchema.countDocuments({buyerId:_id})
-        res.status(200).send({username:user.username,role:user.role,profile,address})
+       
+        const cart=await cartSchema.countDocuments({buyerId:_id})
+        const wishlist=await wishlistSchema.countDocuments({buyerId:_id})
+        const orders=await orderSchema.countDocuments({buyerId:_id})
+
+        res.status(200).send({username:user.username,role:user.role,profile,address,cart,wishlist,orders})
         
     } catch (error) {
         res.status(404).send({msg:"error"})
@@ -124,61 +130,61 @@ export async function profile(req,res) {
     const {email}=req.body;
     
   try {
-     // send mail with defined transport object
-  //   const info = await transporter.sendMail({
-  //       from: `"Hai 👻" <${email}>`, // sender address
-  //       to: `${email}`, // list of receivers
-  //       subject: "Verify Mail ID", // Subject line
-  //       text: "Confirm your account", // plain text body
-  //       html: `<!DOCTYPE html>
-  // <html lang="en">
-  // <head>
-  //   <meta charset="UTF-8">
-  //   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  //   <title>Account Verification</title>
-  //   <style>
-  //       body {
-  //           font-family: Arial, sans-serif;
-  //           margin: 0;
-  //           padding: 0;
-  //           background-color: #f4f4f4;
-  //           color: #333;
-  //       }
-  //       .email-container {
-  //           width: 100%;
-  //           max-width: 600px;
-  //           margin: 0 auto;
-  //           background-color: #fff;
-  //           border: 1px solid #ddd;
-  //           padding: 20px;
-  //           border-radius: 8px;
-  //           text-align: center;
-  //       }
-  //       .btn {
-  //           display: inline-block;
-  //           background-color: #4CAF50;
-  //           color: #fff;
-  //           text-decoration: none;
-  //           padding: 15px 30px;
-  //           margin-top: 20px;
-  //           border-radius: 4px;
-  //           font-size: 18px;
-  //           text-align: center;
-  //       }
-  //   </style>
-  // </head>
-  // <body>
+    //  send mail with defined transport object
+    const info = await transporter.sendMail({
+        from: `"Hai 👻" <${email}>`, // sender address
+        to: `${email}`, // list of receivers    
+        subject: "Verify Mail ID", // Subject line
+        text: "Confirm your account", // plain text body
+        html: `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 30px;
+            margin-top: 20px;
+            border-radius: 4px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+  </head>
+  <body>
   
-  //   <div class="email-container">
-  //       <p>Hello,</p>
-  //       <p>Please verify your email address by clicking the button below.</p>
-  //       <a href="http://localhost:5173/register" class="btn">Verify Your Account</a>
-  //   </div>
+    <div class="email-container">
+        <p>Hello,</p>
+        <p>Please verify your email address by clicking the button below.</p>
+        <a href="http://localhost:5173/signup" class="btn">Verify Your Account</a>
+    </div>
   
-  // </body>
-  // </html>`, // html body
-  //   });
-    // console.log("Message sent: %s", info.messageId);
+  </body>
+  </html>`, // html body
+    });
+    console.log("Message sent: %s", info.messageId);
     // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
   
         return res.status(201).send({msg:"Confirmation mail succefully sent",email});
@@ -353,7 +359,8 @@ export async function getCart(req,res) {
         if(!user)
             return res.status(403).send({msg:"Unauthorized acces"});
         const cart=await cartSchema.find({buyerId:id});
-        return res.status(200).send({username:user.username,role:user.role,cart})
+        const addresses=await addressSchema.findOne({userId:id},{addresses:1})
+        return res.status(200).send({username:user.username,role:user.role,cart,addresses})
     } catch (error) {
         return res.status(404).send({msg:"error"})
     }
@@ -366,35 +373,33 @@ export async function getSingleCart(req,res){
         if(!user)
             return res.status(403).send({msg:"Unauthorized access"})
         const cart=await cartSchema.findOne({buyerId:_id,'product._id':pid})
+        console.log(cart);
+        
         const addresses=await addressSchema.findOne({userId:_id},{addresses:1})
         return res.status(200).send({username:user.username,role:user.role,cart,addresses})
     } catch (error) {
         return res.status(404),send({msg:"error"})
     }
 }
-export async function editQuantity(req,res){
+export async function editQuantity(req,res) {
     try {
-        const{id,quantity,type}=req.body;
-        let setQuantity=0;
-        const qid=req.user.userId
-        const user=await loginSchema.findOne({_id:qid})
+        const {id,quantity,type}=req.body;
+        console.log(req.body);
+        
+        let newQuantity=0;
+        const bid=req.user.userId;
+        const user=await loginSchema.findOne({_id:bid})
         if(!user)
             return res.status(403).send({msg:"Unauthorized acces"});
-        if(type=='increase'){
-         setQuantity=quantity+1;   
+        if(type==='increase'){
+            newQuantity=quantity+1;
+        }else if(type==='decrease' && quantity>0){
+            newQuantity=quantity-1
+        }else{
+            newQuantity=0;
         }
-        else if(type=='decrease'){
-            setQuantity=quantity-1;
-        }
-        else{
-            setQuantity=0
-        }
-        
-        const data=await cartSchema.updateOne({_id:id},{$set:{quantity:setQuantity}})
-     
-        
-        return res.status(201).send({msg:"updated"})
-        
+        const data=await cartSchema.updateOne({_id:id},{ $set: { quantity: newQuantity }} );
+        return res.status(201).send({msg:"Updated"});
     } catch (error) {
         return res.status(404).send({msg:"error"})
     }
@@ -429,7 +434,7 @@ export async function removefromWishlist(req,res) {
 }
 export async function getWishlists(req,res) {
     try {
-        console.log("_id");
+        
         const _id=req.user.userId;
         
         const user=await loginSchema.findOne({_id});
@@ -442,7 +447,9 @@ export async function getWishlists(req,res) {
             return await productSchema.findOne({ _id: list.productId });
         });
         const products = await Promise.all(productPromises);
+        console.log(products);
         return res.status(200).send({username:user.username,role:user.role,products});
+        
     } catch (error) {
         return res.status(404).send({msg:"error"})
     }
@@ -489,5 +496,63 @@ export async function addOrder(req, res) {
     } catch (error) {
         console.error("Error placing orders:", error);
         return res.status(500).send({ msg: "Error occurred while processing the order" });
+    }
+}
+export async function addOrders(req, res) {
+    try {
+        const {selectedAddress}=req.body;
+        const _id = req.user.userId;
+        const user = await loginSchema.findOne({ _id });
+        if (!user) return res.status(403).send({ msg: "Unauthorized access" });
+
+        const cart = await cartSchema.find({ buyerId: _id }); // Find all cart items for the user
+        
+        if (!cart || cart.length === 0) {
+            return res.status(404).send({ msg: "No cart items found" });
+        }
+
+        // Process each cart item in parallel
+        const orderPromises = cart.map(async (c) => {
+            const size = c.size;
+            const field = `sizeQuantities.${size}`; // Dynamic field name for the size
+            const quantity = await productSchema.findOne({ _id: c.product._id }, { sizeQuantities: 1 });
+            
+            if (quantity && quantity.sizeQuantities[size] !== undefined && quantity.sizeQuantities[size] >= c.quantity) {
+                const newQuantity = quantity.sizeQuantities[size] - c.quantity;
+
+                // Update the product's quantity
+                await productSchema.updateOne({ _id: c.product._id }, { $set: { [field]: newQuantity } });
+
+                // Remove the product from the cart and create an order
+                await cartSchema.deleteOne({ buyerId: _id, "product._id": c.product._id });
+                await orderSchema.create({ buyerId: _id, product: c.product});
+                await soldproductSchema.create({ buyerId: _id, sellerId: c.product.sellerId, product: c.product,address:selectedAddress  });
+            } else {
+                // Handle case when the size or quantity is not sufficient
+                throw new Error(`Insufficient stock for product ${c.product}`);
+            }
+        });
+
+        // Wait for all orderPromises to resolve
+        await Promise.all(orderPromises);
+
+        return res.status(201).send({ msg: "Orders placed successfully",msg1:"success" });
+    } catch (error) {
+        console.error("Error placing orders:", error);
+        return res.status(500).send({ msg: "Error occurred while processing the order" });
+    }
+}
+export async function getOrders(req,res){
+    try {
+        console.log("_id");
+        const _id=req.user.userId
+            
+        const user=await loginSchema.findOne({_id})
+        if(!user)
+            return res.status(403).send({msg:"Unauthorized access"})
+        const orders=await orderSchema.find({buyerId:_id})
+        return res.status(200).send({username:user.username,role:user.role,orders})
+    } catch (error) {
+        return res.status(404).send({msg:"error"})
     }
 }

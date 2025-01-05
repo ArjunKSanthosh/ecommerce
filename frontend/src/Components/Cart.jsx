@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import route from './route';
 import axios from 'axios';
 import '../css/Cart.scss';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 
 const Cart = ({setUsername,setRole,setLoggedIn}) => {
+  const navigate =useNavigate()
   const value=localStorage.getItem('Auth');
   const [cartItems, setCartItems] = useState([]); // Holds cart items
   const [quantities, setQuantities] = useState([]); // Holds quantities of items
   const [priceTotal, setPriceTotal] = useState(0); // Holds the total price
-
+  const [addresses,setAddresses]=useState([])
+  const [selectedAddress, setSelectedAddress] = useState("");
   // Fetch cart data from localStorage on component mount
   useEffect(() => {
     getCart();
@@ -18,15 +20,19 @@ const Cart = ({setUsername,setRole,setLoggedIn}) => {
   const getCart=async()=>{
     const {status,data}=await axios.get(`${route()}getcart`,{headers:{"Authorization":`Bearer ${value}`}})
     if(status==200){
+      console.log(data);
+      
       setUsername(data.username)
       setRole(data.role);
       setLoggedIn(true);
       setCartItems(data.cart);
       setQuantities(data.cart.map(item => item.quantity));
       setPriceTotal(data.cart.reduce((acc, item) => acc + (item.product.price * item.quantity), 0))
+      setAddresses(data.addresses.addresses)
     }
   }
   const handleRemove = (id) => {
+    localStorage.removeItem(id);
     const newItems = cartItems.filter((item) => item.id !== id);
     setCartItems(newItems);
     updateTotal(newItems, quantities);
@@ -48,12 +54,35 @@ const Cart = ({setUsername,setRole,setLoggedIn}) => {
     setPriceTotal(totalAmount + 5); // Add delivery charge
   };
 
-  const handleClearCart = () => {
-    localStorage.clear();
-    setCartItems([]);
-    setQuantities([]);
-    setPriceTotal(0);
-  };
+  const handleCart = async () => {
+    if (selectedAddress) {
+        try {
+            const { status, data } = await axios.post(
+                `${route()}placeorder`,
+                {selectedAddress}, 
+                {
+                    headers: {
+                        "Authorization": `Bearer ${value}`,
+                    },
+                }
+            );
+
+            if (status === 201) {
+                alert(data.msg);
+                if (data.msg1 === "success") {
+                  navigate('/purchasecompleted');
+                }
+            } else {
+                alert("Order placement failed. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error placing order:", error);
+            alert("An error occurred while placing the order. Please try again.");
+        }
+    } else {
+        alert("Please select an address.");
+    }
+};
 
   return (
     <div className="cart-container">
@@ -131,8 +160,23 @@ const Cart = ({setUsername,setRole,setLoggedIn}) => {
               <p className="total-price">Total Price: ${priceTotal.toFixed(2)}</p>
               <p className="total-amount">Total Amount: ${((priceTotal - (priceTotal * 0.2)) + 5).toFixed(2)}</p>
               </div>
+              <div className="address-select">
+                  <h4>Select Address</h4>
+                  <select
+                      value={selectedAddress}
+                      onChange={(e) => {
+                        setSelectedAddress(e.target.value)}}
+                  >
+                      <option value="">Select Address</option>
+                      {addresses.map((address, index) => (
+                          <option key={index} value={address._id}>
+                              {address.houseName}, {address.pincode}, {address.postOffice}, {address.place}
+                          </option>
+                      ))}
+                  </select>
+              </div>
               <div className="payment-button">
-                <button onClick={handleClearCart}>Buy Now</button>
+                <button onClick={handleCart}>Buy Now</button>
               </div>
             </div>
           </div>

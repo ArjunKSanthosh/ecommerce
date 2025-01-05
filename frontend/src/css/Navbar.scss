@@ -29,13 +29,18 @@ button{
   .navbar-logo {
     display: flex;
     align-items: center;
-
+    
     .website-name {
       font-size: 36px; // Slightly smaller font size
       color: $primary-color;
       font-weight: 700; // Bold font weight
       letter-spacing: 1px;
       font-family: "Cookie", serif; // Decorative font for the logo
+    }
+    img{
+      width: 50px;
+      margin-right: 15px;
+      border-radius: 50px;
     }
   }
 

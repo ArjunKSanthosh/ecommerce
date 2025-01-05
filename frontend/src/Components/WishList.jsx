@@ -2,6 +2,7 @@ import React,{useEffect,useState} from "react";
 import route from "./route";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import '../css/Wishlist.scss'
 
 const WishList=({setUsername,setRole,setLoggedIn})=>{
     const value=localStorage.getItem('Auth');
@@ -29,45 +30,45 @@ const WishList=({setUsername,setRole,setLoggedIn})=>{
     }
   }
     return (
-        <div className="home-container">
-              <div className="home-products-container">
+        <div className="wishlist-container">
+              <div className="wishlist-products-container">
                 {products && products.length > 0 ? (
                   products.map((product) => (
-                    <div key={product._id} className="home-product-card">
+                    <div key={product._id} className="wishlist-product-card">
                       {/* Product Images */}
                       {product.pimages && product.pimages.length > 0 && (
-                        <div className="home-product-images">
-                              <div className="home-image-gallery">
+                        <div className="wishlist-product-images">
+                              <div className="wishlist-image-gallery">
                                 {product.pimages.length > 0 && (
                                   <img
                                     src={product.pimages[0]} // Show only the first image
                                     alt="Product Thumbnail"
-                                    className="home-product-image"
+                                    className="wishlist-product-image"
                                   />
                                 )}
                               </div>
                         </div>
         
-                      )}
-                      <div className="home-bottom">
-                        <div className="home-left">
+                      )} 
+                      <div className="wishlist-bottom">
+                        <div className="wishlist-left">
                           {/* Product Name */}
-                          <div className="home-product-info">
-                             <span className='home-product-name'>{product.pname}</span>
+                          <div className="wishlist-product-info">
+                             <span className='wishlist-product-name'>{product.pname}</span>
                           </div>
                           {/* Category */}
-                          <div className="home-product-info">
-                            <span className='home-product-category'>{product.category.toUpperCase()}</span>
+                          <div className="wishlist-product-info">
+                            <span className='wishlist-product-category'>{product.category.toUpperCase()}</span>
                           </div>
         
         
                           {/* Price */}
-                          <div className="home-product-info">
-                            <span className='home-product-price'>${product.price.toFixed(2)}</span>
+                          <div className="wishlist-product-info">
+                            <span className='wishlist-product-price'>${product.price.toFixed(2)}</span>
                           </div>
                         </div>
                         <Link to={`/product/${product._id}`}>
-                          <button className="home-view-product-button" title='View Product'>
+                          <button className="wishlist-view-product-button" title='View Product'>
                             view product
                           </button>
                         </Link>

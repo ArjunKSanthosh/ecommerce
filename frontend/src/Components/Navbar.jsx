@@ -32,7 +32,8 @@ const Navbar = ({ username, role, loggedIn }) => {
     <div className="navbar">
       {/* Logo Section */}
       <div className="navbar-logo">
-       <Link to={'/'} style={{textDecoration:'none'}}><span className="website-name">essentia'</span></Link> 
+       <span><img src="ess.png" alt="" /></span> 
+       <Link to={'/'} style={{textDecoration:'none'}}>   <span className="website-name">essentia'</span></Link>
       </div>
 
       {/* Right Side of Navbar */}
