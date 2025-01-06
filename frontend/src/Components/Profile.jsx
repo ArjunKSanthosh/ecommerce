@@ -1,43 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import axios from "axios";
 import route from "./route";
 import '../css/Profile.scss';
 
-const Profile = ({setUsername,setRole,setLoggedIn}) => {
-  const value=localStorage.getItem('Auth');
+const Profile = ({ setUsername, setRole, setLoggedIn }) => {
+  const value = localStorage.getItem('Auth');
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isEditingAddresses, setIsEditingAddresses] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [profile, setProfile] = useState({});
-  const [countCart,setCountCart]=useState(0);
-  const [countWishlist,setCountWishlist]=useState(0);
-  const [countOrders,setCountOrders]=useState(0);
-  useEffect(()=>{
+  const [countCart, setCountCart] = useState(0);
+  const [countWishlist, setCountWishlist] = useState(0);
+  const [countOrders, setCountOrders] = useState(0);
+  const [isAddingAddress, setIsAddingAddress] = useState(false);
+  const [newAddress, setNewAddress] = useState({
+    houseNumber: "",
+    houseName: "",
+    place: "",
+    pincode: "",
+    postOffice: "",
+    landmark: ""
+  });
+
+  useEffect(() => {
     getEssentials();
-  },[])
-  const getEssentials=async()=>{
+  }, []);
+
+  const getEssentials = async () => {
     try {
-      
-      const {status,data}=await axios.get(`${route()}profile`,{headers:{"Authorization":`Bearer ${value}`}});
-      if (status==200) {
+      const { status, data } = await axios.get(`${route()}profile`, { headers: { "Authorization": `Bearer ${value}` } });
+      if (status === 200) {
         setUsername(data.username);
         setRole(data.role);
         setLoggedIn(true);
-        if(data.profile)
-          setProfile({...data.profile});
-        if(data.address)
+        if (data.profile)
+          setProfile({ ...data.profile });
+        if (data.address)
           setAddresses(data.address.addresses);
         setCountCart(data.cart);
         setCountWishlist(data.wishlist);
-        setCountOrders(data.orders)
+        setCountOrders(data.orders);
       }
-    }
-     catch (error) {
+    } catch (error) {
       console.log("error");
     }
-  }
+  };
+
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
     setProfile((prev) => ({
@@ -45,20 +55,21 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
       [name]: value,
     }));
   };
-  const handleSubmitProfile=async()=>{
-    if(isEditingProfile){
-      const {status,data}=await axios.post(`${route()}edituser`,profile,{headers:{"Authorization":`Bearer ${value}`}});
-      if (status===201) {
-        alert(data.msg)
-      }else{
-        alert("error")
+
+  const handleSubmitProfile = async () => {
+    if (isEditingProfile) {
+      const { status, data } = await axios.post(`${route()}edituser`, profile, { headers: { "Authorization": `Bearer ${value}`} });
+      if (status === 201) {
+        alert(data.msg);
+      } else {
+        alert("Error");
       }
       setIsEditingProfile(!isEditingProfile);
-    }
-    else{
+    } else {
       setIsEditingProfile(!isEditingProfile);
     }
-  }
+  };
+
   const handleAddressChange = (index, e) => {
     const { name, value } = e.target;
     const updatedAddresses = [...addresses];
@@ -69,26 +80,46 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
     setAddresses(updatedAddresses);
   };
 
-  const handleAddAddress = () => {
-    setAddresses([
-      ...addresses,
-      { houseNumber: "", houseName: "", place: "", pincode: "", postOffice: "" },
-    ]);
+  const handleNewAddressChange = (e) => {
+    const { name, value } = e.target;
+    setNewAddress((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-  const handleSubmitAddress=async()=>{
-    if(isEditingAddresses){
-      const {status,data}=await axios.post(`${route()}editaddress`,addresses,{headers:{"Authorization":`Bearer ${value}`}});
-      if (status===201) {
-        alert(data.msg)
-      }else{
-        alert("error")
-      }
-      setIsEditingAddresses(!isEditingAddresses);
+
+  const handleAddAddress = () => {
+    setIsAddingAddress(true); // Show the form for adding a new address
+  };
+
+  const handleSubmitAddress = async () => {
+    // Submit the new address and hide the form
+    const updatedAddresses = [...addresses, newAddress];
+    const { status, data } = await axios.post(`${route()}editaddress`, updatedAddresses, { headers: { "Authorization": `Bearer ${value}`} });
+    if (status === 201) {
+      alert(data.msg);
+      setAddresses(updatedAddresses); // Update the address list
+      setIsAddingAddress(false); // Hide the input form after adding the address
+      setNewAddress({
+        houseNumber: "",
+        houseName: "",
+        place: "",
+        pincode: "",
+        postOffice: "",
+        landmark: ""
+      });
+    } else {
+      alert("Error");
     }
-    else{
-      setIsEditingAddresses(!isEditingAddresses);
-    }
-  }
+  };
+
+  const handleEditAddress = (index) => {
+    // Set the selected address in the newAddress state to edit it
+    setNewAddress({ ...addresses[index] });
+    setIsAddingAddress(true); // Show the form to edit the address
+    setAddresses(addresses.filter((_, idx) => idx !== index)); // Temporarily remove the address while editing
+  };
+
   return (
     <div className="profile-container">
       {/* Profile Section */}
@@ -142,11 +173,8 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
             </div>
           </div>
 
-
           <div className="gender">
-              <label>
-              Gender:
-              </label>
+            <label>Gender:</label>
             <label>
               <input
                 type="radio"
@@ -178,72 +206,72 @@ const Profile = ({setUsername,setRole,setLoggedIn}) => {
 
       {/* Addresses Section */}
       <div className="address-section">
-          <div className="ordwish">
-            <Link style={{textDecoration:'none'}} to={'/myorders'}>My Orders <span>({countOrders})</span></Link>
-            <Link style={{textDecoration:'none'}} to={'/wishlist'}>My Wishlist <span>({countWishlist})</span></Link>
-            <Link style={{textDecoration:'none'}} to={'/cart'}>My Cart <span>({countCart})</span></Link>
-          </div>
-        <div className="title">
-        <h3>Addresses</h3>
-        <button onClick={handleAddAddress} className="add-button" title="Add New Address">
-          {/* <svg className="add-icon" viewBox="0 0 24 24" height="30px" width="30px" xmlns="add.png">
-            <path strokeWidth="1.5" d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"></path>
-            <path strokeWidth="1.5" d="M8 12H16"></path>
-            <path strokeWidth="1.5" d="M12 16V8"></path>
-          </svg> */}
-          <img src="add.png" alt="" className="add-icon"/>
-        </button>
+        <div className="ordwish">
+          <Link style={{ textDecoration: 'none' }} to={'/myorders'}>My Orders <span>({countOrders})</span></Link>
+          <Link style={{ textDecoration: 'none' }} to={'/wishlist'}>My Wishlist <span>({countWishlist})</span></Link>
+          <Link style={{ textDecoration: 'none' }} to={'/cart'}>My Cart <span>({countCart})</span></Link>
         </div>
-        <div className="address-part">
+        <div className="title">
+          <h3>Addresses</h3>
+          <button onClick={handleAddAddress} className="add-button" title="Add New Address">
+            <img src="add.png" alt="" className="add-icon" />
+          </button>
+        </div>
 
-        
-        {addresses.map((address, index) => (
-          <div key={index} className="address-container">
+        {/* New Address Form */}
+        {isAddingAddress && (
+          <div className="address-form">
             <input
               type="text"
               name="houseName"
               placeholder="House Name"
-              value={address.houseName}
-              onChange={(e) => handleAddressChange(index, e)}
-              disabled={!isEditingAddresses}
+              value={newAddress.houseName}
+              onChange={handleNewAddressChange}
             />
             <input
               type="text"
               name="place"
               placeholder="Place"
-              value={address.place}
-              onChange={(e) => handleAddressChange(index, e)}
-              disabled={!isEditingAddresses}
+              value={newAddress.place}
+              onChange={handleNewAddressChange}
             />
             <input
               type="text"
               name="pincode"
               placeholder="Pincode"
-              value={address.pincode}
-              onChange={(e) => handleAddressChange(index, e)}
-              disabled={!isEditingAddresses}
+              value={newAddress.pincode}
+              onChange={handleNewAddressChange}
             />
             <input
               type="text"
               name="postOffice"
               placeholder="Post Office"
-              value={address.postOffice}
-              onChange={(e) => handleAddressChange(index, e)}
-              disabled={!isEditingAddresses}
+              value={newAddress.postOffice}
+              onChange={handleNewAddressChange}
             />
             <input
               type="text"
               name="landmark"
               placeholder="Landmark"
-              value={address.landmark}
-              onChange={(e) => handleAddressChange(index, e)}
-              disabled={!isEditingAddresses}
+              value={newAddress.landmark}
+              onChange={handleNewAddressChange}
             />
-            <button onClick={handleSubmitAddress}>
-              {isEditingAddresses ? "Save Address" : "Edit Address"}
-            </button>
+            <button onClick={handleSubmitAddress}>Save Address</button>
           </div>
-        ))}
+        )}
+
+        {/* Display Addresses */}
+        <div className="address-list">
+          {addresses.map((address, index) => (
+            <div key={index} className="address-box">
+              <p>{address.houseName}</p>
+              <p>{address.place}</p> 
+              <p>{address.pincode}</p>
+              <p>{address.postOffice}</p>
+              <p>{address.landmark}</p>
+              <button onClick={() => handleEditAddress(index)}>Edit</button>
+            </div>
+          ))}
         </div>
       </div>
     </div>
