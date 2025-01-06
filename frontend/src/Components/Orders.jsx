@@ -33,30 +33,30 @@ const Orders = ({ setUsername, setRole, setLoggedIn }) => {
   
 
   return (
-    <div className="home-container">
-         <div className="home-products-container">
+    <div className="order-container">
+         <div className="order-products-container">
            {orders && orders.length > 0 ? (
              orders.map((order) => (
-               <div key={order._id} className="home-product-card">
+               <div key={order._id} className="order-product-card">
                  {order.product.pimages && order.product.pimages.length > 0 && (
-                   <div className="home-product-images">
-                         <div className="home-image-gallery">
+                   <div className="order-product-images">
+                         <div className="order-image-gallery">
                            {order.product.pimages.length > 0 && (
                              <img
                                src={order.product.pimages[0]} // Show only the first image
                                alt="Product Thumbnail"
-                               className="home-product-image"
+                               className="order-product-image"
                              />
                            )}
                          </div>
                    </div>
    
                  )}
-                 <div className="home-bottom">
-                   <div className="home-left">
+                 <div className="order-bottom">
+                   <div className="order-left">
                      {/* Product Name */}
-                     <div className="home-product-info">
-                        <span className='home-product-name'>{order.product.pname}</span>
+                     <div className="order-product-info">
+                        <span className='order-product-name'>{order.product.pname}</span>
                      </div>
                   </div>
   

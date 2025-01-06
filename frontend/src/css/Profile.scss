@@ -62,21 +62,24 @@ $box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px
           justify-content: center;
           margin-bottom: 10px;
           width: 100%;
+          
 
           input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #484545;
             color: black;
             font-weight: bold;
             border-radius: $border-radius;
             font-size: 16px;
             transition: border-color 0.3s;
-            box-shadow: rgba(167, 31, 49, 0.3) 0px 1px 2px 0px, rgba(44, 142, 217, 0.15) 0px 1px 3px 1px;
 
             &:focus {
               border-color: $primary-color;
               outline: none;
+            }
+            &:disabled{
+              border: none;
             }
           }
 

@@ -142,13 +142,16 @@ const Company = ({ setUsername, setRole, setLoggedIn }) => {
           <button className="add-product-btn"><img src="add.png" alt="" /></button>
           </Link>
         </div>
+        <div className="right-bot">
+          
          <ul>
           {categories.map((category, index) => (
-                <Link to={`/products/${category}`}key={index} style={{textDecoration:'none'}}>
+            <Link to={`/products/${category}`}key={index} style={{textDecoration:'none'}}>
               <li >{category}</li>
             </Link>
           ))}
         </ul>
+          </div>
       </div>
     </div>
   );

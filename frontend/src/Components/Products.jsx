@@ -28,7 +28,8 @@ const Products = ({ setUsername, setRole, setLoggedIn }) => {
   };
   console.log(products);
   
-  return (
+  return (<>
+      <h1>{category}</h1>
     <div className="products-container">
       {products && products.length > 0 ? (
         products.map((product) => (
@@ -39,12 +40,12 @@ const Products = ({ setUsername, setRole, setLoggedIn }) => {
                 <div className="image-gallery">
                   {product.pimages.map((image, index) => (
                     <img
-                      key={index}
+                    key={index}
                       src={image}
                       alt={`Product Image ${index + 1}`}
                       className="product-image"
-                    />
-                  ))}
+                      />
+                    ))}
                 </div>
               </div>
             )}
@@ -89,7 +90,7 @@ const Products = ({ setUsername, setRole, setLoggedIn }) => {
               <Link to={`/editproduct/${product._id}`}>
                 <button className="edit-btn">
                   <FaEdit className="edit-icon"/>
-                  Edit
+                  
                 </button>
               </Link>
             </div>
@@ -99,6 +100,7 @@ const Products = ({ setUsername, setRole, setLoggedIn }) => {
         <p>No products available</p>
       )}
     </div>
+      </>
   );
 };
 

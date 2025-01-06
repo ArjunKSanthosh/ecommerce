@@ -29,6 +29,7 @@ body {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
+
 .right-side {
   width: 70%;
   background-color: #fff;
@@ -43,15 +44,23 @@ body {
     font-size: 20px;
     font-family: "Poppins", serif;
     color: rgb(4, 4, 65);
+    border-bottom: 1px solid black;
+    padding: 10px;
   }
-  ul{
-    list-style: none;
-    border-radius: 15px;
-    width: 50%;
-    margin-top: 5%;
-    padding: 20px;
-      
+  .right-bot{
+    display: flex;
+    flex-direction: column;
+
+    ul{
+      list-style: none;
+      border-radius: 15px;
+      width: 20%;
+      margin-top: 5%;
+      padding: 20px;
+      display: flex;
+    }
   }
+  
 }
 
 .company-image {
@@ -75,11 +84,12 @@ body {
 .company-name,
 .company-location {
   margin-bottom: 15px;
+  
 }
 
 .company-name p,
 .company-location p {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset; 
   padding: 5px 95px;
@@ -121,7 +131,9 @@ body {
 }
 
 .add-product-btn {
-background-color: white
+background-color: white;
+padding:4px 25px; 
+border-radius: 8px;
 }
 .add-product-btn img{
   width: 30px;

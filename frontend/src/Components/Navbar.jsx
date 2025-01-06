@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Navbar.scss'; // Import SCSS for styling
 import { FaUserCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 const Navbar = ({ username, role, loggedIn }) => {
+  const navigate=useNavigate();
   const [isSeller, setIsSeller] = useState(false);      // Track if the user is a seller
   const [isPopoverVisible, setIsPopoverVisible] = useState(false); // Track visibility of popover
   
@@ -18,6 +19,7 @@ const Navbar = ({ username, role, loggedIn }) => {
     localStorage.removeItem('Auth');
     setIsSeller(false);
     setIsPopoverVisible(false);
+    navigate('/login')
   };
 
   const handleSellerClick = () => {

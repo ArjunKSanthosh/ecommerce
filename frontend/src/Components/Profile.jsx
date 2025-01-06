@@ -112,7 +112,9 @@ const Profile = ({ setUsername, setRole, setLoggedIn }) => {
       alert("Error");
     }
   };
-
+  const handleCancel=()=>{
+    setIsAddingAddress(false);
+  }
   const handleEditAddress = (index) => {
     // Set the selected address in the newAddress state to edit it
     setNewAddress({ ...addresses[index] });
@@ -258,6 +260,8 @@ const Profile = ({ setUsername, setRole, setLoggedIn }) => {
               onChange={handleNewAddressChange}
             />
             <button onClick={handleSubmitAddress}>Save Address</button>
+            <button onClick={handleCancel}>Cancel</button>
+
           </div>
         )}
 
