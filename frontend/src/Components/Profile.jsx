@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+ import React, { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import axios from "axios";
@@ -228,6 +228,7 @@ const Profile = ({ setUsername, setRole, setLoggedIn }) => {
               value={newAddress.houseName}
               onChange={handleNewAddressChange}
             />
+            
             <input
               type="text"
               name="place"
@@ -264,12 +265,13 @@ const Profile = ({ setUsername, setRole, setLoggedIn }) => {
         <div className="address-list">
           {addresses.map((address, index) => (
             <div key={index} className="address-box">
+              <img src="house.png" alt="" className="house" />
               <p>{address.houseName}</p>
-              <p>{address.place}</p> 
+              <p>{address.place},{address.postOffice}</p> 
               <p>{address.pincode}</p>
-              <p>{address.postOffice}</p>
+              <p></p>
               <p>{address.landmark}</p>
-              <button onClick={() => handleEditAddress(index)}>Edit</button>
+              <button onClick={() => handleEditAddress(index)}> <img src="edit.png" alt="" className="edit2" /> </button>
             </div>
           ))}
         </div>
