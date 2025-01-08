@@ -1,4 +1,4 @@
- import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import axios from "axios";
@@ -123,7 +123,7 @@ const Profile = ({ setUsername, setRole, setLoggedIn }) => {
   };
 
   return (
-    <div className="profile-container">
+    <div className="profilee-container">
       {/* Profile Section */}
       <div className="profile-header">
         <h1>User Details</h1>

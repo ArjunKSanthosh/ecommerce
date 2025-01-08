@@ -1,140 +1,199 @@
-.add-product {
-    display: flex;
-    flex-direction: column;
-    padding: 30px;
-    background-color: #ffffff; /* White background for a clean look */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    max-width: 600px; /* Limit the width */
-    margin: 40px auto; /* Center the container with margin */
-    max-height: 80vh; /* Set a maximum height for the container */
-    overflow-y: auto; /* Enable vertical scrolling */
-  }
-  
+@import url('https://fonts.googleapis.com/css2?family=Agu+Display&family=Cookie&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+$primary-color: #00796b;
+
+.addd-product {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background-color: #ffffff; /* White background for a clean look */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  width: 800px; /* Limit the width */
+  margin: 40px auto; /* Center the container with margin */
+  max-height: 80vh; /* Set a maximum height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  font-family: "Poppins", sans-serif;
+
   h2 {
     font-size: 28px; /* Title size */
     color: #333; /* Dark text color */
     text-align: center; /* Center the title */
     margin-bottom: 20px; /* Space below the title */
+    font-weight: 600; /* Make the title slightly bolder */
   }
-  
+
   .product-form {
     display: flex;
     flex-direction: column;
+    gap: 5px; /* Add space between form elements */
   }
-  
+
   .form-group {
     margin-bottom: 20px; /* Space between form groups */
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  
+
   label {
     font-weight: bold; /* Bold labels */
-    margin-bottom: 5px; /* Space below labels */
+    margin-bottom: 8px; /* Space below labels */
     color: #555; /* Darker color for labels */
+    font-size: 16px;
   }
-  
+
+  /* Input Styles */
   input[type="text"],
   input[type="number"],
   select {
     width: 100%;
-    padding: 12px; /* Increased padding for comfort */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 5px; /* Rounded corners */
+    padding: 14px; /* Slightly larger padding for more space */
+    border: 1px solid #ddd; /* Soft light border */
+    border-radius: 8px; /* Rounded corners for inputs */
     font-size: 16px; /* Larger font size */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
+    transition: all 0.3s ease; /* Smooth transition */
+    background-color: #f9f9f9; /* Light background for input fields */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+    margin-bottom: 10px; /* Space between input fields */
   }
-  
+
   input[type="text"]:focus,
   input[type="number"]:focus,
   select:focus {
-    border-color: #007bff; /* Change border color on focus */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow on focus */
+    border-color: $primary-color; /* Change border color to the primary color */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focused shadow */
     outline: none; /* Remove default outline */
+    background-color: #fff; /* White background on focus */
   }
-  
+
+  /* Add Category Section */
   .category-select {
     display: flex;
     align-items: center;
   }
-  
+
   .add-category {
     display: flex;
     align-items: center;
     margin-left: 10px; /* Space between select and button */
   }
-  
+
   .add-category button {
     background-color: #28a745; /* Green background */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     padding: 10px 15px;
     cursor: pointer;
+    margin-right: 10px;
     transition: background-color 0.3s; /* Smooth transition */
+    font-size: 16px;
   }
-  
+
   .add-category button:hover {
     background-color: #218838; /* Darker green on hover */
   }
-  
+
   .new-category-input {
     display: flex;
     align-items: center;
   }
-  
+
   .new-category-input input {
     flex: 1; /* Take remaining space */
     margin-right: 10px; /* Space between input and button */
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
   }
-  
+
+  .new-category-input button {
+    background-color: #00796b; /* Green background for button */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .new-category-input button:hover {
+    background-color: #004d40;
+  }
+
+  /* Sizes and Quantities Section */
   .size-quantity {
     display: flex;
-    flex-wrap: wrap; /* Wrap sizes to next line if needed */
+    justify-content: flex-start; /* Align items to the left */
+    flex-wrap: nowrap; /* Prevent wrapping to next line */
+    gap: 20px; /* Increased space between inputs */
+    overflow-x: auto; /* Allow horizontal scroll if needed */
+    padding: 5px 0;
   }
-  
+
   .size-input {
     display: flex;
-    align-items: center;
-    margin-right: 15px; /* Space between size inputs */
+    flex-direction: column;
+    align-items: center; /* Align label and input vertically */
+    justify-content: center;
   }
-  
+
   .size-input label {
-    margin-right: 5px; /* Space between label and input */
+    margin-bottom: 5px; /* Space between label and input */
+    font-size: 14px; /* Slightly smaller font for labels */
+    color: #555; /* Darker color for labels */
   }
-  
+
+  .size-input input {
+    width: 60px; /* Fixed width for quantity input fields */
+    text-align: center; /* Center align text */
+  }
+
+  /* Submit Button */
   .submit-btn {
-    padding: 12px 20px;
-    background-color: #007bff; /* Blue background */
+    padding: 14px 20px;
+    background-color: $primary-color; /* Blue background */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px; /* Larger font size */
-    transition: background-color 0.3s; /* Smooth transition */
+    transition: background-color 0.3s ease; /* Smooth transition */
     margin-top: 20px; /* Space above the button */
   }
-  
+
   .submit-btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: darken($primary-color, 10%); /* Darker blue on hover */
   }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .add-product {
-      padding: 20px; /* Reduce padding on smaller screens */
-    }
-  
-    h2 {
-      font-size: 24px; /* Smaller title on mobile */
-    }
-  
-    input[type="text"],
-    input[type="number"],
-    select {
-      font-size: 14px; /* Smaller font size on mobile */
-    }
-  
-    .submit-btn {
-      font-size: 14px; /* Smaller button text on mobile */
-    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .addd-product {
+    padding: 20px; /* Reduce padding on smaller screens */
+    width: 100%; /* Make form take full width */
+    margin: 20px; /* Reduce margin on small screens */
   }
+
+  h2 {
+    font-size: 24px; /* Smaller title on mobile */
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    font-size: 14px; /* Smaller font size on mobile */
+  }
+
+  .submit-btn {
+    font-size: 14px; /* Smaller button text on mobile */
+  }
+
+  /* Size inputs on mobile devices will scroll horizontally */
+  .size-quantity {
+    overflow-x: scroll; /* Enable horizontal scroll on smaller screens */
+  }
+}

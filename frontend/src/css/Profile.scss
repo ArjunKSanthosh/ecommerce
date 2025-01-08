@@ -7,10 +7,10 @@ $text-color: #333;
 $border-radius: 10px;
 $box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 
-.profile-container {
+.profilee-container {
   display: flex;
-  justify-content: space-between;
-  padding: 20px;
+  padding: 10px;  
+  justify-content: center;
   height: 100vh;
   background-color: $background-color;
   font-family: "Poppins", serif;
@@ -20,12 +20,13 @@ $box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 30%;
+    width: 23%;
     background-color: #fff;
-    padding: 20px;
-    border-radius: $border-radius;
-    box-shadow: $box-shadow;
-    margin-right: 20px;
+    padding: 10px;
+    border-right: 2px solid grey;
+    // border-radius: $border-radius;
+    // box-shadow: $box-shadow;
+
     height: 90%;
     .profile-pic {
       width: 150px;
@@ -123,6 +124,7 @@ $box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px
           background-color: $secondary-color;
         }
       }
+    // border-radius: $border-radius;
 
       button {
         padding: 10px 14px;
@@ -149,8 +151,8 @@ $box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px
     height: 90%;
     background-color: #fff;
     padding: 20px;
-    border-radius: $border-radius;
-    box-shadow: $box-shadow;
+    // border-radius: $border-radius;
+    // box-shadow: $box-shadow;
     overflow-y: scroll;
 
     
@@ -181,10 +183,10 @@ $box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px
       display: flex;
       gap: 150px;
       width: 100%;
-      margin-left: 10px;
       background-color: maroon;
       padding: 20px;
       border-radius: 10px;
+      justify-content: space-evenly;
     }
     
     .count {
@@ -276,14 +278,14 @@ $box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px
     //     background-color: rgb(15, 15, 210);
     //   }
 
-    //   .address-box {
-    //     background-color: #f9f9f9;
-    //     border-radius: 8px;
-    //     padding: 15px;
-    //     margin-bottom: 15px;
-    //     width: 100%;
-    //     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
-
+      .address-box {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        width: 100%;
+      
+      }
     //     p {
     //       margin: 0;
     //       font-size: 14px;

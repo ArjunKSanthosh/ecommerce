@@ -125,7 +125,7 @@ const AddProduct = ({setUsername, setRole, setLoggedIn }) => {
         }
     }
   return (
-    <div className="add-product">
+    <div className="addd-product">
       <h2>Add Product</h2>
       <form className="product-form" onSubmit={handleSubmit}>
         {/* Category */}
@@ -164,6 +164,7 @@ const AddProduct = ({setUsername, setRole, setLoggedIn }) => {
 
         {/* Product Name */}
         <div className="form-group">
+          
           <label>Product Name</label>
           <input
             type="text"
