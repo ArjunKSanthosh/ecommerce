@@ -16,6 +16,8 @@ import WishList from './Components/WishList'
 import SingleCart from './Components/SingleCart'
 import PurchaseCompleted from './Components/PurchaseCompleted'
 import Orders from './Components/Orders'
+import PlacedOrders from './Components/PlacedOrders'
+
 import './App.css'
 
 function App() {
@@ -44,6 +46,7 @@ function App() {
             <Route path='/scart/:pid' element={<SingleCart  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
             <Route path='/purchasecompleted' Component={PurchaseCompleted}/>
             <Route path='/myorders' element={<Orders  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
+            <Route path='/placedorders' element={<PlacedOrders  setUsername={setUsername} setRole={setRole} setLoggedIn={setLoggedIn}/>}/>
 
 
 

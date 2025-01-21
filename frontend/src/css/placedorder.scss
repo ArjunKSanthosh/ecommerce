@@ -1,0 +1,116 @@
+// PlacedOrders.scss
+
+// Variables
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$background-color: #f9f9f9;
+$text-color: #333;
+$card-shadow: rgba(0, 0, 0, 0.1);
+$border-radius: 8px;
+
+.placed-orders-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: $background-color;
+
+  p {
+    font-size: 1.2rem;
+    color: $text-color;
+    text-align: center;
+  }
+}
+
+.placed-orders-card {
+  background: #fff;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 6px $card-shadow;
+  width: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px $card-shadow;
+  }
+
+  .placed-orders-image-gallery {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-bottom: 1px solid $card-shadow;
+
+    .placed-orders-product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .placed-orders-bottom {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .placed-orders-left {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .placed-orders-product-info {
+        font-size: 0.9rem;
+        color: $text-color;
+        font-weight: 600;
+
+        &.placed-orders-product-category {
+          font-size: 0.8rem;
+          color:black;
+        }
+
+        &.placed-orders-product-name {
+          font-size: 1rem;
+          font-weight: bold;
+        }
+
+        &.placed-orders-product-price {
+          font-size: 1rem;
+          color: $primary-color;
+        }
+      }
+    }
+
+    .placed-orders-edit-btn {
+      background: $primary-color;
+      color: #fff;
+      border: none;
+      border-radius: $border-radius;
+      padding: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.3s;
+
+      &:hover {
+        background: darken($primary-color, 10%);
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .placed-orders-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .placed-orders-card {
+    width: 90%;
+  }
+}

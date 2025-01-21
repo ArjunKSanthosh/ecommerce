@@ -46,6 +46,27 @@ body {
     color: rgb(4, 4, 65);
     border-bottom: 1px solid black;
     padding: 10px;
+    .order{
+      background-color:  rgb(4, 4, 65);
+      padding: 5px 15px;
+      color: white;
+      border-radius: 10px;
+      font-family: "Poppins", serif;
+      font-size: 20px;
+      transition:0.4s ease all;
+      &:hover{
+        background-color: white;
+        color:rgb(4, 4, 65) ;
+      }
+    }
+    .placed{
+      padding: 6px 15px;
+      border-radius: 10px;
+      font-size: 20px;
+      font-family: "Poppins", serif;
+      background-color:rgb(4, 4, 65) ;
+      color: white;
+    }
   }
   .right-bot{
     display: flex;

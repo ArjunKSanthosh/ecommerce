@@ -138,6 +138,9 @@ const Company = ({ setUsername, setRole, setLoggedIn }) => {
         <div className="top">
         <p>Categories</p>
         <p>Add Product</p>
+        <Link to={'/placedorders'}>
+        <button className="placed">Placed Orders</button>
+        </Link>
         <Link to={'/addproduct'}>
           <button className="add-product-btn"><img src="add.png" alt="" /></button>
           </Link>
